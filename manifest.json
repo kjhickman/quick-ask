@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "QuickAsk",
+  "version": "0.1.0",
+  "description": "Get LLM responses directly from the address bar",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "dist/background/background.js",
+    "type": "module"
+  },
+  "omnibox": {
+    "keyword": "ask"
+  },
+  "action": {
+    "default_popup": "src/pages/popup/popup.html",
+    "default_title": "QuickAsk",
+    "default_icon": {
+      "16": "src/assets/icons/icon16.png",
+      "48": "src/assets/icons/icon48.png",
+      "128": "src/assets/icons/icon128.png"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "icons": {
+    "16": "src/assets/icons/icon16.png",
+    "48": "src/assets/icons/icon48.png",
+    "128": "src/assets/icons/icon128.png"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "quick-ask",
+  "version": "0.1.0",
+  "description": "Get LLM responses directly from the address bar",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rmdir /s /q dist 2>nul || true",
+    "dev": "npm run clean && npm run watch"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.1",
+    "typescript": "^5.8.3"
+  },
+  "type": "module"
+}

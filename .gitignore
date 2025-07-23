@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+
+# TypeScript build output
+*.js.map
+
+# OS generated files
+.DS_Store
+Thumbs.db

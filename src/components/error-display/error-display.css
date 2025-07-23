@@ -1,0 +1,33 @@
+/* Error Display Component Styles */
+.error-display {
+  padding: 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  display: none;
+}
+
+.error-display.error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+}
+
+.error-display.success {
+  background-color: #efe;
+  border: 1px solid #cfc;
+  color: #363;
+}
+
+.error-display.warning {
+  background-color: #ffd;
+  border: 1px solid #ffb;
+  color: #663;
+}
+
+.error-display.info {
+  background-color: #eef;
+  border: 1px solid #ccf;
+  color: #336;
+}

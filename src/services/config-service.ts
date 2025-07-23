@@ -1,4 +1,4 @@
-import { DEFAULT_MODELS, PROVIDERS, STORAGE_KEYS, type Provider, type ApiConfig } from '../config/constants.js';
+import { DEFAULT_MODELS, PROVIDERS, type Provider, type ApiConfig } from '../config/constants.js';
 
 /**
  * Configuration Service for handling extension settings
@@ -13,7 +13,7 @@ export default class ConfigService {
     return {
       apiKey: config.apiKey || '',
       provider: (config.provider as Provider) || PROVIDERS.OPENAI,
-      model: config.model || this.getDefaultModel(PROVIDERS.OPENAI)
+      model: config.model || this.getDefaultModel(PROVIDERS.OPENAI),
     };
   }
 
@@ -25,7 +25,7 @@ export default class ConfigService {
     await chrome.storage.sync.set({
       apiKey: config.apiKey,
       provider: config.provider,
-      model: config.model
+      model: config.model,
     });
   }
 

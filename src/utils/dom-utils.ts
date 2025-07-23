@@ -14,7 +14,7 @@ export class DomUtils {
     }
     return element;
   }
-  
+
   /**
    * Set element text content safely
    * @param id - The element ID
@@ -26,7 +26,7 @@ export class DomUtils {
       element.textContent = text;
     }
   }
-  
+
   /**
    * Set element HTML content safely
    * @param id - The element ID
@@ -38,7 +38,7 @@ export class DomUtils {
       element.innerHTML = html;
     }
   }
-  
+
   /**
    * Toggle element visibility
    * @param id - The element ID
@@ -50,7 +50,7 @@ export class DomUtils {
       element.style.display = show ? 'block' : 'none';
     }
   }
-  
+
   /**
    * Add event listener safely
    * @param id - The element ID
@@ -63,7 +63,7 @@ export class DomUtils {
       element.addEventListener(event, handler);
     }
   }
-  
+
   /**
    * Create and append element
    * @param tag - The HTML tag
@@ -73,24 +73,24 @@ export class DomUtils {
    * @returns The created element
    */
   static createElement(
-    tag: string, 
-    parentId: string, 
-    attributes: Record<string, string> = {}, 
+    tag: string,
+    parentId: string,
+    attributes: Record<string, string> = {},
     textContent: string = ''
   ): HTMLElement | null {
     const parent = this.getElementById(parentId);
     if (!parent) return null;
-    
+
     const element = document.createElement(tag);
-    
+
     Object.entries(attributes).forEach(([key, value]) => {
       element.setAttribute(key, value);
     });
-    
+
     if (textContent) {
       element.textContent = textContent;
     }
-    
+
     parent.appendChild(element);
     return element;
   }

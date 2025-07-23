@@ -1,13 +1,13 @@
-import { 
-  API_ENDPOINTS, 
-  DEFAULT_MODELS, 
+import {
+  API_ENDPOINTS,
+  DEFAULT_MODELS,
   PROVIDERS,
   type Provider,
   type ApiConfig,
   type RequestConfig,
   type OpenAIResponse,
   type AnthropicResponse,
-  type LocalResponse
+  type LocalResponse,
 } from '../config/constants.js';
 
 /**
@@ -29,13 +29,13 @@ export default class ApiService {
     if (provider === PROVIDERS.OPENAI) {
       url = API_ENDPOINTS.OPENAI;
       headers = {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       };
       body = {
         model: model || DEFAULT_MODELS.openai,
         messages: [{ role: 'user', content: query }],
-        stream: true
+        stream: true,
       };
     } else if (provider === PROVIDERS.ANTHROPIC) {
       url = API_ENDPOINTS.ANTHROPIC;
@@ -43,23 +43,23 @@ export default class ApiService {
         'x-api-key': apiKey,
         'Content-Type': 'application/json',
         'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'anthropic-dangerous-direct-browser-access': 'true',
       };
       body = {
         model: model || DEFAULT_MODELS.anthropic,
         max_tokens: 4096,
         messages: [{ role: 'user', content: query }],
-        stream: true
+        stream: true,
       };
     } else if (provider === PROVIDERS.LOCAL) {
       url = API_ENDPOINTS.LOCAL;
       headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       };
       body = {
         model: model || DEFAULT_MODELS.local,
         messages: [{ role: 'user', content: query }],
-        stream: true
+        stream: true,
       };
     } else {
       throw new Error(`Unsupported provider: ${provider}`);

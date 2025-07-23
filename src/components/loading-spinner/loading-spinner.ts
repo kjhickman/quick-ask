@@ -9,19 +9,17 @@ export class LoadingSpinner {
    * @param element - The element or element ID
    */
   constructor(element: HTMLElement | string) {
-    this.element = typeof element === 'string' 
-      ? document.getElementById(element) 
-      : element;
-    
+    this.element = typeof element === 'string' ? document.getElementById(element) : element;
+
     if (!this.element) {
       console.warn('LoadingSpinner: Element not found');
       return;
     }
-    
+
     this.originalDisplay = this.element.style.display || 'block';
     this.hide();
   }
-  
+
   /**
    * Show the loading spinner
    */
@@ -30,7 +28,7 @@ export class LoadingSpinner {
       this.element.style.display = 'flex';
     }
   }
-  
+
   /**
    * Hide the loading spinner
    */
@@ -39,7 +37,7 @@ export class LoadingSpinner {
       this.element.style.display = 'none';
     }
   }
-  
+
   /**
    * Toggle spinner visibility
    * @param show - Whether to show or hide
@@ -51,7 +49,7 @@ export class LoadingSpinner {
       this.hide();
     }
   }
-  
+
   /**
    * Set loading text
    * @param text - The loading text
@@ -64,7 +62,7 @@ export class LoadingSpinner {
       }
     }
   }
-  
+
   /**
    * Create a loading spinner element
    * @param parentId - Parent element ID
@@ -77,14 +75,14 @@ export class LoadingSpinner {
       console.warn('LoadingSpinner.create: Parent element not found');
       return null;
     }
-    
+
     const spinnerContainer = document.createElement('div');
     spinnerContainer.className = 'loading-spinner';
     spinnerContainer.innerHTML = `
       <div class="spinner-icon"></div>
       <div class="loading-text">${text}</div>
     `;
-    
+
     parent.appendChild(spinnerContainer);
     return new LoadingSpinner(spinnerContainer);
   }

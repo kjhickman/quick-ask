@@ -4,7 +4,7 @@ import { ERROR_MESSAGES, type ApiConfig } from '../config/constants.js';
 export interface StandardError {
   type: string;
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
   timestamp: string;
 }
 
@@ -20,7 +20,7 @@ export class ErrorService {
   static formatApiError(response: Response): string {
     return `HTTP ${response.status}: ${response.statusText}`;
   }
-  
+
   /**
    * Check if configuration is missing required fields
    * @param config - The configuration object
@@ -29,7 +29,7 @@ export class ErrorService {
   static isConfigurationError(config: ApiConfig): boolean {
     return !config.apiKey && config.provider !== 'local';
   }
-  
+
   /**
    * Get configuration error message
    * @returns Configuration error message
@@ -37,7 +37,7 @@ export class ErrorService {
   static getConfigurationErrorMessage(): string {
     return ERROR_MESSAGES.NO_API_KEY;
   }
-  
+
   /**
    * Handle and format different types of errors
    * @param error - The error to handle
@@ -47,21 +47,21 @@ export class ErrorService {
     if (typeof error === 'string') {
       return error;
     }
-    
+
     if (error instanceof TypeError && error.message.includes('fetch')) {
       return ERROR_MESSAGES.NETWORK_ERROR;
     }
-    
+
     if (error.name === 'AbortError') {
       return ERROR_MESSAGES.TIMEOUT_ERROR;
     }
-    
+
     // Log the full error for debugging
     console.error('Unhandled error:', error);
-    
+
     return error.message || ERROR_MESSAGES.API_ERROR;
   }
-  
+
   /**
    * Create a standardized error object
    * @param type - Error type
@@ -69,15 +69,19 @@ export class ErrorService {
    * @param details - Additional error details
    * @returns Standardized error object
    */
-  static createError(type: string, message: string, details: any = null): StandardError {
+  static createError(
+    type: string,
+    message: string,
+    details?: Record<string, unknown>
+  ): StandardError {
     return {
       type,
       message,
       details,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
-  
+
   /**
    * Display error in UI element
    * @param elementId - The element ID to display error in
@@ -92,7 +96,7 @@ export class ErrorService {
       element.style.display = 'block';
     }
   }
-  
+
   /**
    * Clear error display
    * @param elementId - The element ID to clear

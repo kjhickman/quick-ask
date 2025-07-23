@@ -21,23 +21,23 @@ class ResponseController {
     this.responseElement = DomUtils.getElementById('responseText');
     this.loadingSpinner = new LoadingSpinner('loading');
     this.errorDisplay = new ErrorDisplay('error');
-    
+
     this.init();
   }
 
   async init(): Promise<void> {
     try {
       const query = UrlUtils.getQueryParam('query');
-      
+
       if (!query) {
         this.showError('No query provided');
         return;
       }
 
       DomUtils.setTextContent('queryText', query);
-      
+
       const config = await ConfigService.loadConfig();
-      
+
       if (ErrorService.isConfigurationError(config)) {
         this.showError(ErrorService.getConfigurationErrorMessage());
         return;
@@ -68,7 +68,7 @@ class ResponseController {
         method: 'POST',
         headers,
         body: JSON.stringify(body),
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
@@ -101,11 +101,11 @@ class ResponseController {
             if (data === '[DONE]') continue;
 
             const content = ApiService.parseResponseChunk(data, config.provider);
-            
+
             if (content) {
               responseText += content;
               DomUtils.setTextContent('responseText', responseText);
-              
+
               if (this.responseElement) {
                 this.responseElement.scrollTop = this.responseElement.scrollHeight;
               }

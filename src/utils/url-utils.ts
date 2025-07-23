@@ -11,7 +11,7 @@ export class UrlUtils {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
   }
-  
+
   /**
    * Create a response page URL with query parameter
    * @param query - The search query
@@ -20,7 +20,7 @@ export class UrlUtils {
   static createResponseUrl(query: string): string {
     return chrome.runtime.getURL('src/html/response.html') + '?query=' + encodeURIComponent(query);
   }
-  
+
   /**
    * Decode URL parameters safely
    * @param encodedString - The encoded string
@@ -29,12 +29,12 @@ export class UrlUtils {
   static safeDecodeURIComponent(encodedString: string): string {
     try {
       return decodeURIComponent(encodedString);
-    } catch (e) {
+    } catch {
       console.warn('Failed to decode URI component:', encodedString);
       return encodedString;
     }
   }
-  
+
   /**
    * Validate if a URL is valid
    * @param url - The URL to validate

@@ -2,6 +2,7 @@ import ConfigService from '../../services/config-service.js';
 import { ErrorService } from '../../services/error-service.js';
 import { ErrorDisplay } from '../../components/error-display/error-display.js';
 import { DomUtils } from '../../utils/dom-utils.js';
+import { Provider } from '../../config/constants.js';
 
 /**
  * Popup controller for managing extension configuration
@@ -25,7 +26,7 @@ class PopupController {
   async init(): Promise<void> {
     try {
       const config = await ConfigService.loadConfig();
-      
+
       if (config.apiKey && this.apiKeyInput) this.apiKeyInput.value = config.apiKey;
       if (config.provider && this.providerSelect) this.providerSelect.value = config.provider;
       if (config.model && this.modelInput) this.modelInput.value = config.model;
@@ -41,7 +42,7 @@ class PopupController {
     if (this.providerSelect) {
       this.providerSelect.addEventListener('change', () => {
         if (this.providerSelect && this.modelInput) {
-          const provider = this.providerSelect.value as any;
+          const provider = this.providerSelect.value as Provider;
           this.modelInput.value = ConfigService.getDefaultModel(provider);
         }
       });
@@ -52,15 +53,15 @@ class PopupController {
         try {
           await ConfigService.saveConfig({
             apiKey: this.apiKeyInput?.value || '',
-            provider: (this.providerSelect?.value as any) || 'openai',
-            model: this.modelInput?.value || 'gpt-4o-mini'
+            provider: (this.providerSelect?.value as Provider) || 'openai',
+            model: this.modelInput?.value || 'gpt-4o-mini',
           });
-          
+
           if (this.saveButton) {
             this.saveButton.textContent = 'Saved!';
           }
           this.errorDisplay?.showSuccess('Configuration saved successfully');
-          
+
           setTimeout(() => {
             if (this.saveButton) {
               this.saveButton.textContent = 'Save Configuration';

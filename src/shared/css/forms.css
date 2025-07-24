@@ -8,7 +8,6 @@
   margin-bottom: 4px;
   font-weight: 500;
   color: #333;
-  font-size: 14px;
 }
 
 .form-input,
@@ -18,7 +17,6 @@
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
   box-sizing: border-box;
   transition:
     border-color 0.2s,
@@ -45,7 +43,7 @@
 }
 
 .form-help-text {
-  font-size: 12px;
+  font-size: 0.85rem;
   color: #666;
   margin-top: 4px;
 }

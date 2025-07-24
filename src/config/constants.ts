@@ -28,6 +28,8 @@ export const UI_CONSTANTS = {
   EXTENSION_NAME: 'QuickAsk',
   DEFAULT_TIMEOUT: 30000, // 30 seconds
   MAX_RESPONSE_LENGTH: 10000,
+  SYSTEM_PROMPT:
+    "You are a helpful AI assistant. Provide clear, concise, and accurate responses. When answering technical questions, be specific and include practical examples when appropriate. You can only answer the question, there will be no follow up question so don't ask a question at the end.",
 } as const;
 
 export const STORAGE_KEYS = {

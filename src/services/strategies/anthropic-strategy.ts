@@ -2,6 +2,7 @@ import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
   PROVIDERS,
+  UI_CONSTANTS,
   type Provider,
   type ApiConfig,
   type RequestConfig,
@@ -16,6 +17,14 @@ export class AnthropicStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {
     const { apiKey, model } = config;
 
+    const body: Record<string, unknown> = {
+      model: model || DEFAULT_MODELS.anthropic,
+      max_tokens: 4096,
+      messages: [{ role: 'user', content: query }],
+      stream: true,
+      system: UI_CONSTANTS.SYSTEM_PROMPT, // Add static system prompt
+    };
+
     return {
       url: API_ENDPOINTS.ANTHROPIC,
       headers: {
@@ -24,12 +33,7 @@ export class AnthropicStrategy implements LLMProviderStrategy {
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true',
       },
-      body: {
-        model: model || DEFAULT_MODELS.anthropic,
-        max_tokens: 4096,
-        messages: [{ role: 'user', content: query }],
-        stream: true,
-      },
+      body,
     };
   }
 

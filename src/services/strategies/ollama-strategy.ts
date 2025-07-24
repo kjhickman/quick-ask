@@ -5,24 +5,25 @@ import {
   type Provider,
   type ApiConfig,
   type RequestConfig,
-  type LocalResponse,
+  type OllamaResponse,
 } from '../../config/constants.js';
 import { LLMProviderStrategy } from './llm-provider-strategy.js';
 
 /**
- * Local LLM provider strategy implementation (e.g., Ollama)
+ * Ollama provider strategy implementation
+ * Uses Ollama's native API format
  */
-export class LocalStrategy implements LLMProviderStrategy {
+export class OllamaStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {
     const { model } = config;
 
     return {
-      url: API_ENDPOINTS.LOCAL,
+      url: API_ENDPOINTS.OLLAMA,
       headers: {
         'Content-Type': 'application/json',
       },
       body: {
-        model: model || DEFAULT_MODELS.local,
+        model: model || DEFAULT_MODELS.ollama,
         messages: [{ role: 'user', content: query }],
         stream: true,
       },
@@ -32,15 +33,15 @@ export class LocalStrategy implements LLMProviderStrategy {
   parseResponseChunk(data: string): string {
     try {
       const parsed = JSON.parse(data);
-      const localResponse = parsed as LocalResponse;
-      return localResponse.message?.content || '';
+      const ollamaResponse = parsed as OllamaResponse;
+      return ollamaResponse.message?.content || '';
     } catch (error) {
-      console.error('Local: Error parsing chunk:', error);
+      console.error('Ollama: Error parsing chunk:', error);
       return '';
     }
   }
 
   getProviderType(): Provider {
-    return PROVIDERS.LOCAL;
+    return PROVIDERS.OLLAMA;
   }
 }

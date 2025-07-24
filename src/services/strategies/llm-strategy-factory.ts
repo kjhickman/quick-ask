@@ -2,7 +2,8 @@ import { Provider, PROVIDERS } from '../../config/constants.js';
 import { LLMProviderStrategy } from './llm-provider-strategy.js';
 import { OpenAIStrategy } from './openai-strategy.js';
 import { AnthropicStrategy } from './anthropic-strategy.js';
-import { LocalStrategy } from './local-strategy.js';
+import { LMStudioStrategy } from './lmstudio-strategy.js';
+import { OllamaStrategy } from './ollama-strategy.js';
 
 /**
  * Factory for creating LLM provider strategies
@@ -11,7 +12,8 @@ export class LLMStrategyFactory {
   private static strategies: Map<Provider, LLMProviderStrategy> = new Map([
     [PROVIDERS.OPENAI, new OpenAIStrategy()],
     [PROVIDERS.ANTHROPIC, new AnthropicStrategy()],
-    [PROVIDERS.LOCAL, new LocalStrategy()],
+    [PROVIDERS.LMSTUDIO, new LMStudioStrategy()],
+    [PROVIDERS.OLLAMA, new OllamaStrategy()],
   ]);
 
   /**

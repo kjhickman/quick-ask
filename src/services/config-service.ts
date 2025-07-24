@@ -40,8 +40,10 @@ export default class ConfigService {
         return DEFAULT_MODELS.openai;
       case PROVIDERS.ANTHROPIC:
         return DEFAULT_MODELS.anthropic;
-      case PROVIDERS.LOCAL:
-        return DEFAULT_MODELS.local;
+      case PROVIDERS.LMSTUDIO:
+        return DEFAULT_MODELS.lmstudio;
+      case PROVIDERS.OLLAMA:
+        return DEFAULT_MODELS.ollama;
       default:
         return DEFAULT_MODELS.openai;
     }

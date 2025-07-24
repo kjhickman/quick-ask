@@ -11,13 +11,11 @@ import type { ApiConfig } from '../../config/constants.js';
  * Controller for the LLM response streaming
  */
 class ResponseController {
-  private queryElement: HTMLElement | null;
   private responseElement: HTMLElement | null;
   private loadingSpinner: LoadingSpinner;
   private errorDisplay: ErrorDisplay;
 
   constructor() {
-    this.queryElement = DomUtils.getElementById('queryText');
     this.responseElement = DomUtils.getElementById('responseText');
     this.loadingSpinner = new LoadingSpinner('loading');
     this.errorDisplay = new ErrorDisplay('error');
@@ -26,6 +24,8 @@ class ResponseController {
   }
 
   async init(): Promise<void> {
+    let config: ApiConfig | undefined;
+
     try {
       const query = UrlUtils.getQueryParam('query');
 
@@ -36,7 +36,7 @@ class ResponseController {
 
       DomUtils.setTextContent('queryText', query);
 
-      const config = await ConfigService.loadConfig();
+      config = await ConfigService.loadConfig();
 
       if (ErrorService.isConfigurationError(config)) {
         this.showError(ErrorService.getConfigurationErrorMessage());
@@ -45,7 +45,7 @@ class ResponseController {
 
       await this.streamResponse(query, config);
     } catch (error) {
-      this.showError(ErrorService.handleError(error as Error));
+      this.showError(ErrorService.handleError(error as Error, config), config);
     }
   }
 
@@ -96,33 +96,42 @@ class ResponseController {
         const lines = chunk.split('\n').filter(line => line.trim());
 
         for (const line of lines) {
+          let data = '';
+
           if (line.startsWith('data: ')) {
-            const data = line.slice(6);
+            // SSE format (OpenAI, LM Studio)
+            data = line.slice(6);
             if (data === '[DONE]') continue;
+          } else if (line.trim() && line.trim().startsWith('{')) {
+            // Raw JSON format (Ollama)
+            data = line.trim();
+          } else {
+            continue;
+          }
 
-            const content = ApiService.parseResponseChunk(data, config.provider);
+          const content = ApiService.parseResponseChunk(data, config.provider);
 
-            if (content) {
-              responseText += content;
-              DomUtils.setTextContent('responseText', responseText);
+          if (content) {
+            responseText += content;
+            DomUtils.setTextContent('responseText', responseText);
 
-              if (this.responseElement) {
-                this.responseElement.scrollTop = this.responseElement.scrollHeight;
-              }
+            if (this.responseElement) {
+              this.responseElement.scrollTop = this.responseElement.scrollHeight;
             }
           }
         }
       }
     } catch (error) {
-      this.showError(ErrorService.handleError(error as Error));
+      this.showError(ErrorService.handleError(error as Error), config);
     }
   }
 
   /**
    * Show an error message
    * @param message - The error message
+   * @param _config - Optional API configuration for context (unused in this implementation)
    */
-  private showError(message: string): void {
+  private showError(message: string, _config?: ApiConfig): void {
     this.loadingSpinner?.hide();
     this.errorDisplay?.showError(message);
   }

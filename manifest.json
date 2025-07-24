@@ -7,6 +7,8 @@
   "host_permissions": [
     "https://api.openai.com/*",
     "https://api.anthropic.com/*",
+    "http://localhost:1234/*",
+    "http://localhost:11434/*",
     "http://localhost/*"
   ],
   "background": {

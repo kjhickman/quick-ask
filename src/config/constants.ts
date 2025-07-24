@@ -5,19 +5,22 @@
 export const API_ENDPOINTS = {
   OPENAI: 'https://api.openai.com/v1/chat/completions',
   ANTHROPIC: 'https://api.anthropic.com/v1/messages',
-  LOCAL: 'http://localhost:11434/api/chat',
+  LMSTUDIO: 'http://localhost:1234/v1/chat/completions',
+  OLLAMA: 'http://localhost:11434/api/chat',
 } as const;
 
 export const DEFAULT_MODELS = {
   openai: 'gpt-4o-mini',
   anthropic: 'claude-3-5-haiku-latest',
-  local: 'local-model',
+  lmstudio: 'google/gemma-3-4b',
+  ollama: 'gemma3:4b',
 } as const;
 
 export const PROVIDERS = {
   OPENAI: 'openai',
   ANTHROPIC: 'anthropic',
-  LOCAL: 'local',
+  LMSTUDIO: 'lmstudio',
+  OLLAMA: 'ollama',
 } as const;
 
 export const UI_CONSTANTS = {
@@ -37,6 +40,10 @@ export const ERROR_MESSAGES = {
   API_ERROR: 'Failed to get response from API',
   NETWORK_ERROR: 'Network error occurred',
   TIMEOUT_ERROR: 'Request timed out',
+  LMSTUDIO_SERVER_ERROR:
+    'Local LM Studio server is not running. Please start LM Studio and ensure the server is running on port 1234.',
+  OLLAMA_SERVER_ERROR:
+    'Ollama server is not running. Please start Ollama and ensure the server is running on port 11434.',
 } as const;
 
 // Type definitions
@@ -80,10 +87,14 @@ export interface AnthropicResponse {
   delta?: AnthropicDelta;
 }
 
-export interface LocalMessage {
+export interface OllamaMessage {
+  role?: string;
   content?: string;
 }
 
-export interface LocalResponse {
-  message?: LocalMessage;
+export interface OllamaResponse {
+  model?: string;
+  created_at?: string;
+  message?: OllamaMessage;
+  done?: boolean;
 }

@@ -27,7 +27,7 @@ export class ErrorService {
    * @returns True if configuration is invalid
    */
   static isConfigurationError(config: ApiConfig): boolean {
-    return !config.apiKey && config.provider !== 'local';
+    return !config.apiKey && config.provider !== 'lmstudio' && config.provider !== 'ollama';
   }
 
   /**
@@ -41,14 +41,21 @@ export class ErrorService {
   /**
    * Handle and format different types of errors
    * @param error - The error to handle
+   * @param config - Optional API configuration for context
    * @returns User-friendly error message
    */
-  static handleError(error: Error | string): string {
+  static handleError(error: Error | string, config?: ApiConfig): string {
     if (typeof error === 'string') {
       return error;
     }
 
     if (error instanceof TypeError && error.message.includes('fetch')) {
+      if (config?.provider === 'lmstudio') {
+        return ERROR_MESSAGES.LMSTUDIO_SERVER_ERROR;
+      }
+      if (config?.provider === 'ollama') {
+        return ERROR_MESSAGES.OLLAMA_SERVER_ERROR;
+      }
       return ERROR_MESSAGES.NETWORK_ERROR;
     }
 
@@ -56,7 +63,6 @@ export class ErrorService {
       return ERROR_MESSAGES.TIMEOUT_ERROR;
     }
 
-    // Log the full error for debugging
     console.error('Unhandled error:', error);
 
     return error.message || ERROR_MESSAGES.API_ERROR;
@@ -86,11 +92,12 @@ export class ErrorService {
    * Display error in UI element
    * @param elementId - The element ID to display error in
    * @param error - The error to display
+   * @param config - Optional API configuration for context
    */
-  static displayError(elementId: string, error: string | Error): void {
+  static displayError(elementId: string, error: string | Error, config?: ApiConfig): void {
     const element = document.getElementById(elementId);
     if (element) {
-      const message = this.handleError(error);
+      const message = this.handleError(error, config);
       element.textContent = message;
       element.style.color = 'red';
       element.style.display = 'block';

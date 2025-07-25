@@ -4,15 +4,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing-xl);
   gap: 10px;
 }
 
 .spinner-icon {
   width: 24px;
   height: 24px;
-  border: 3px solid #f0f0f0;
-  border-top: 3px solid #007acc;
+  border: 3px solid var(--color-border-light);
+  border-top: 3px solid var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -27,6 +27,6 @@
 }
 
 .loading-text {
-  color: #666;
+  color: var(--color-text-muted);
   text-align: center;
 }

@@ -1,24 +1,29 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>QuickAsk Response</title>
-    <link rel="stylesheet" href="response.css" />
-    <link rel="stylesheet" href="../../components/loading-spinner/loading-spinner.css" />
-    <link rel="stylesheet" href="../../components/error-display/error-display.css" />
-  </head>
-  <body>
-    <div class="query"><strong>Query:</strong> <span id="queryText"></span></div>
 
-    <div class="response">
-      <div class="loading-spinner" id="loading">
-        <div class="spinner-icon"></div>
-        <div class="loading-text">Thinking...</div>
-      </div>
-      <pre id="responseText" style="display: none"></pre>
-      <div id="error" class="error-display"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>QuickAsk Response</title>
+  <link rel="stylesheet" href="../../shared/css/variables.css" />
+  <link rel="stylesheet" href="../../shared/css/base.css" />
+  <link rel="stylesheet" href="../../components/loading-spinner/loading-spinner.css" />
+  <link rel="stylesheet" href="../../components/error-display/error-display.css" />
+  <link rel="stylesheet" href="response.css" />
+</head>
+
+<body>
+  <div class="query"><strong>Query:</strong> <span id="queryText"></span></div>
+
+  <div class="response">
+    <div class="loading-spinner" id="loading">
+      <div class="spinner-icon"></div>
+      <div class="loading-text">Thinking...</div>
     </div>
+    <pre id="responseText" style="display: none"></pre>
+    <div id="error" class="error-display"></div>
+  </div>
 
-    <script type="module" src="../../../dist/pages/response/response-controller.js"></script>
-  </body>
+  <script type="module" src="../../../dist/pages/response/response-controller.js"></script>
+</body>
+
 </html>

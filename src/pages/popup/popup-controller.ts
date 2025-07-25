@@ -18,7 +18,6 @@ class PopupController {
   private providerConfigSection: HTMLElement | null;
   private apiKeySection: HTMLElement | null;
   private modelSection: HTMLElement | null;
-  private localInstructionsSection: HTMLElement | null;
   private saveSection: HTMLElement | null;
 
   constructor() {
@@ -31,7 +30,6 @@ class PopupController {
     this.providerConfigSection = DomUtils.getElementById('providerConfig');
     this.apiKeySection = DomUtils.getElementById('apiKeySection');
     this.modelSection = DomUtils.getElementById('modelSection');
-    this.localInstructionsSection = DomUtils.getElementById('localInstructions');
     this.saveSection = DomUtils.getElementById('saveSection');
 
     this.setupEventListeners();
@@ -115,9 +113,8 @@ class PopupController {
 
     if (provider === 'openai' || provider === 'anthropic') {
       this.showCloudProviderConfig(provider);
-    } else if (provider === 'lmstudio' || provider === 'ollama') {
-      this.showLocalProviderConfig(provider);
     }
+    // For local providers (lmstudio, ollama), no additional config needed
 
     if (this.modelSection) {
       this.modelSection.style.display = 'block';
@@ -140,7 +137,6 @@ class PopupController {
 
   private hideAllConfigSections(): void {
     if (this.apiKeySection) this.apiKeySection.style.display = 'none';
-    if (this.localInstructionsSection) this.localInstructionsSection.style.display = 'none';
   }
 
   private showCloudProviderConfig(provider: Provider): void {
@@ -154,33 +150,6 @@ class PopupController {
         helpElement.textContent = 'Get your API key from platform.openai.com';
       } else if (provider === 'anthropic') {
         helpElement.textContent = 'Get your API key from console.anthropic.com';
-      }
-    }
-  }
-
-  private showLocalProviderConfig(provider: Provider): void {
-    if (!this.localInstructionsSection) return;
-
-    this.localInstructionsSection.style.display = 'block';
-
-    const instructionElement = DomUtils.getElementById('localInstructionText');
-    if (instructionElement) {
-      if (provider === 'lmstudio') {
-        instructionElement.innerHTML = `
-          <strong>🖥️ LM Studio Setup:</strong><br>
-          1. Start LM Studio and go to "Local Server" tab<br>
-          2. Load a model and click "Start Server"<br>
-          3. Ensure server runs on port 1234<br>
-          4. Enable CORS if needed
-        `;
-      } else if (provider === 'ollama') {
-        instructionElement.innerHTML = `
-          <strong>🐋 Ollama Setup:</strong><br>
-          1. Install Ollama and pull a model<br>
-          2. Start with: <code>OLLAMA_ORIGINS="*" ollama serve</code><br>
-          3. Server will run on port 11434<br>
-          4. CORS origins setting is required for Chrome extensions
-        `;
       }
     }
   }

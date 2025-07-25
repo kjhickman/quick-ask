@@ -58,10 +58,11 @@ class PopupController {
 
   private setupEventListeners(): void {
     if (this.providerSelect) {
-      this.providerSelect.addEventListener('change', () => {
+      this.providerSelect.addEventListener('change', async () => {
         const provider = this.providerSelect?.value as Provider;
         if (provider) {
           this.showProviderConfiguration(provider);
+          await this.loadProviderSpecificConfig(provider);
         } else {
           this.hideProviderConfiguration();
         }
@@ -85,6 +86,24 @@ class PopupController {
           this.modelInput.value = ConfigService.getDefaultModel(provider);
         }
       });
+    }
+  }
+
+  private async loadProviderSpecificConfig(provider: Provider): Promise<void> {
+    try {
+      const providerConfig = await ConfigService.loadProviderConfig(provider);
+
+      if (this.apiKeyInput) {
+        this.apiKeyInput.value = providerConfig.apiKey;
+      }
+
+      if (this.modelInput) {
+        this.modelInput.value = providerConfig.model;
+      }
+
+      this.errorDisplay?.clear();
+    } catch (error) {
+      this.errorDisplay?.showError(ErrorService.handleError(error as Error));
     }
   }
 

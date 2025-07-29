@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
   LMSTUDIO: 'http://localhost:1234/v1/chat/completions',
   OLLAMA: 'http://localhost:11434/api/chat',
   MISTRAL: 'https://api.mistral.ai/v1/chat/completions',
+  GEMINI: 'https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent',
 } as const;
 
 export const DEFAULT_MODELS = {
@@ -12,6 +13,7 @@ export const DEFAULT_MODELS = {
   lmstudio: 'google/gemma-3-4b',
   ollama: 'gemma3:4b',
   mistral: 'mistral-small-latest',
+  gemini: 'gemini-1.5-flash',
 } as const;
 
 export const PROVIDERS = {
@@ -20,6 +22,7 @@ export const PROVIDERS = {
   LMSTUDIO: 'lmstudio',
   OLLAMA: 'ollama',
   MISTRAL: 'mistral',
+  GEMINI: 'gemini',
 } as const;
 
 export const UI_CONSTANTS = {
@@ -98,4 +101,16 @@ export interface OllamaResponse {
   created_at?: string;
   message?: OllamaMessage;
   done?: boolean;
+}
+
+export interface GeminiCandidate {
+  content?: {
+    parts?: Array<{
+      text?: string;
+    }>;
+  };
+}
+
+export interface GeminiResponse {
+  candidates?: GeminiCandidate[];
 }

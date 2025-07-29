@@ -5,6 +5,7 @@ export {
 } from './factory';
 export { AnthropicStrategy } from './strategies/anthropic-strategy';
 export { BaseProviderStrategy } from './strategies/base-strategy';
+export { GeminiStrategy } from './strategies/gemini-strategy';
 export { LMStudioStrategy } from './strategies/lmstudio-strategy';
 export { MistralStrategy } from './strategies/mistral-strategy';
 export { OllamaStrategy } from './strategies/ollama-strategy';

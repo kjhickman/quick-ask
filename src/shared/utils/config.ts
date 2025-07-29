@@ -11,6 +11,7 @@ interface ProviderConfigs {
   [PROVIDERS.LMSTUDIO]: ProviderConfig;
   [PROVIDERS.OLLAMA]: ProviderConfig;
   [PROVIDERS.MISTRAL]: ProviderConfig;
+  [PROVIDERS.GEMINI]: ProviderConfig;
 }
 
 export function getDefaultModel(provider: Provider): string {
@@ -25,6 +26,8 @@ export function getDefaultModel(provider: Provider): string {
       return DEFAULT_MODELS.ollama;
     case PROVIDERS.MISTRAL:
       return DEFAULT_MODELS.mistral;
+    case PROVIDERS.GEMINI:
+      return DEFAULT_MODELS.gemini;
     default:
       return DEFAULT_MODELS.openai;
   }

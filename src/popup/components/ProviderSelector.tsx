@@ -24,8 +24,10 @@ export function ProviderSelector({
       </label>
       <select id="provider" className="form-select" value={value} onChange={handleChange}>
         <option value="">Select a provider...</option>
-        <option value="openai">OpenAI (GPT)</option>
-        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="openai">OpenAI</option>
+        <option value="anthropic">Anthropic</option>
+        <option value="mistral">Mistral</option>
+        <option value="gemini">Gemini</option>
         <option value="lmstudio">LM Studio (Local)</option>
         <option value="ollama">Ollama (Local)</option>
       </select>

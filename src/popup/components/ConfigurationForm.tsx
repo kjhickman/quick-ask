@@ -1,5 +1,5 @@
 import type { Provider } from '@shared/config/constants';
-import { getDefaultModel } from '@shared/utils/config-utils';
+import { getDefaultModel } from '@shared/utils/config';
 import type React from 'react';
 
 export interface ConfigurationFormProps {

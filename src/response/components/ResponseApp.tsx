@@ -1,5 +1,5 @@
 import { ErrorDisplay } from '@shared/components/ErrorDisplay';
-import { getQueryParam } from '@shared/utils/url-utils';
+import { getQueryParam } from '@shared/utils/url';
 import type React from 'react';
 import { useMemo } from 'react';
 import { useStreamingResponse } from '../hooks/useStreamingResponse';

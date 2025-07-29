@@ -1,12 +1,12 @@
 import type { ApiConfig } from '@shared/config/constants';
-import { createRequestConfig, parseResponseChunk } from '@shared/utils/api-utils';
-import { loadConfig } from '@shared/utils/config-utils';
+import { createRequestConfig, parseResponseChunk } from '@shared/utils/api';
+import { loadConfig } from '@shared/utils/config';
 import {
   formatApiError,
   getConfigurationErrorMessage,
   handleError,
   isConfigurationError,
-} from '@shared/utils/error-utils';
+} from '@shared/utils/error';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface StreamingState {

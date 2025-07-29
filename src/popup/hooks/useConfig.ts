@@ -4,8 +4,8 @@ import {
   loadConfig as loadStoredConfig,
   loadProviderConfig as loadStoredProviderConfig,
   saveConfig as saveStoredConfig,
-} from '@shared/utils/config-utils';
-import { handleError } from '@shared/utils/error-utils';
+} from '@shared/utils/config';
+import { handleError } from '@shared/utils/error';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {

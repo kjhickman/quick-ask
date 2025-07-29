@@ -8,7 +8,7 @@ export class UrlUtils {
   }
 
   static createResponseUrl(query: string): string {
-    return chrome.runtime.getURL('src/html/response.html') + '?query=' + encodeURIComponent(query);
+    return `${chrome.runtime.getURL('src/html/response.html')}?query=${encodeURIComponent(query)}`;
   }
 
   static safeDecodeURIComponent(encodedString: string): string {

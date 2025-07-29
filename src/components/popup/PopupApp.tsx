@@ -1,10 +1,10 @@
-import React from 'react';
-import { Provider } from '@config/constants';
-import { useConfig } from '@hooks/useConfig';
-import { ProviderSelector } from './ProviderSelector';
-import { ConfigurationForm } from './ConfigurationForm';
-import { SaveButton } from './SaveButton';
 import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
+import type { Provider } from '@config/constants';
+import { useConfig } from '@hooks/useConfig';
+import type React from 'react';
+import { ConfigurationForm } from './ConfigurationForm';
+import { ProviderSelector } from './ProviderSelector';
+import { SaveButton } from './SaveButton';
 
 export function PopupApp(): React.ReactElement {
   const { config, loading, error, success, updateConfig, loadProviderConfig, saveConfig } =

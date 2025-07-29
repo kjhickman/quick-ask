@@ -1,14 +1,14 @@
 import {
+  type AnthropicResponse,
   API_ENDPOINTS,
+  type ApiConfig,
   DEFAULT_MODELS,
   PROVIDERS,
-  UI_CONSTANTS,
   type Provider,
-  type ApiConfig,
   type RequestConfig,
-  type AnthropicResponse,
+  UI_CONSTANTS,
 } from '@config/constants';
-import { LLMProviderStrategy } from './llm-provider-strategy';
+import type { LLMProviderStrategy } from './llm-provider-strategy';
 
 export class AnthropicStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {

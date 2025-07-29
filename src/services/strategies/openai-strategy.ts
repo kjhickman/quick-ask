@@ -1,14 +1,14 @@
 import {
   API_ENDPOINTS,
-  DEFAULT_MODELS,
-  PROVIDERS,
-  UI_CONSTANTS,
-  type Provider,
   type ApiConfig,
-  type RequestConfig,
+  DEFAULT_MODELS,
   type OpenAIResponse,
+  PROVIDERS,
+  type Provider,
+  type RequestConfig,
+  UI_CONSTANTS,
 } from '@config/constants';
-import { LLMProviderStrategy } from './llm-provider-strategy';
+import type { LLMProviderStrategy } from './llm-provider-strategy';
 
 export class OpenAIStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {

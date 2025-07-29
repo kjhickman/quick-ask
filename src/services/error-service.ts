@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES, type ApiConfig } from '@config/constants';
+import { type ApiConfig, ERROR_MESSAGES } from '@config/constants';
 
 // Error types
 export interface StandardError {
@@ -97,7 +97,7 @@ export class ErrorService {
   static displayError(elementId: string, error: string | Error, config?: ApiConfig): void {
     const element = document.getElementById(elementId);
     if (element) {
-      const message = this.handleError(error, config);
+      const message = ErrorService.handleError(error, config);
       element.textContent = message;
       element.style.color = 'red';
       element.style.display = 'block';

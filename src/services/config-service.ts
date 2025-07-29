@@ -1,4 +1,4 @@
-import { DEFAULT_MODELS, PROVIDERS, type Provider, type ApiConfig } from '@config/constants';
+import { type ApiConfig, DEFAULT_MODELS, PROVIDERS, type Provider } from '@config/constants';
 
 interface ProviderConfig {
   apiKey: string;
@@ -17,7 +17,7 @@ interface ProviderConfigs {
  */
 export default class ConfigService {
   static async loadConfig(): Promise<ApiConfig> {
-    await this.migrateOldConfigFormat();
+    await ConfigService.migrateOldConfigFormat();
 
     const result = await chrome.storage.sync.get(['currentProvider', 'providerConfigs']);
     const currentProvider = (result.currentProvider as Provider) || PROVIDERS.OPENAI;
@@ -25,7 +25,7 @@ export default class ConfigService {
 
     const providerConfig = providerConfigs[currentProvider] || {
       apiKey: '',
-      model: this.getDefaultModel(currentProvider),
+      model: ConfigService.getDefaultModel(currentProvider),
     };
 
     return {
@@ -47,7 +47,7 @@ export default class ConfigService {
 
         providerConfigs[provider] = {
           apiKey: oldConfig.apiKey || '',
-          model: oldConfig.model || this.getDefaultModel(provider),
+          model: oldConfig.model || ConfigService.getDefaultModel(provider),
         };
 
         await chrome.storage.sync.set({
@@ -66,7 +66,7 @@ export default class ConfigService {
 
     providerConfigs[config.provider] = {
       apiKey: config.apiKey,
-      model: config.model || this.getDefaultModel(config.provider),
+      model: config.model || ConfigService.getDefaultModel(config.provider),
     };
 
     await chrome.storage.sync.set({
@@ -82,7 +82,7 @@ export default class ConfigService {
     return (
       providerConfigs[provider] || {
         apiKey: '',
-        model: this.getDefaultModel(provider),
+        model: ConfigService.getDefaultModel(provider),
       }
     );
   }

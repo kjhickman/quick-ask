@@ -1,9 +1,9 @@
-import { Provider, PROVIDERS } from '@config/constants';
-import { LLMProviderStrategy } from './llm-provider-strategy';
-import { OpenAIStrategy } from './openai-strategy';
+import { PROVIDERS, type Provider } from '@config/constants';
 import { AnthropicStrategy } from './anthropic-strategy';
+import type { LLMProviderStrategy } from './llm-provider-strategy';
 import { LMStudioStrategy } from './lmstudio-strategy';
 import { OllamaStrategy } from './ollama-strategy';
+import { OpenAIStrategy } from './openai-strategy';
 
 /**
  * Factory for creating LLM provider strategies
@@ -23,7 +23,7 @@ export class LLMStrategyFactory {
    * @throws Error if provider is not supported
    */
   static getStrategy(provider: Provider): LLMProviderStrategy {
-    const strategy = this.strategies.get(provider);
+    const strategy = LLMStrategyFactory.strategies.get(provider);
 
     if (!strategy) {
       throw new Error(`Unsupported provider: ${provider}`);
@@ -37,7 +37,7 @@ export class LLMStrategyFactory {
    * @returns Array of supported provider types
    */
   static getAvailableProviders(): Provider[] {
-    return Array.from(this.strategies.keys());
+    return Array.from(LLMStrategyFactory.strategies.keys());
   }
 
   /**
@@ -46,6 +46,6 @@ export class LLMStrategyFactory {
    * @param strategy - The strategy implementation
    */
   static registerStrategy(provider: Provider, strategy: LLMProviderStrategy): void {
-    this.strategies.set(provider, strategy);
+    LLMStrategyFactory.strategies.set(provider, strategy);
   }
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 export interface SaveButtonProps {
   onSave: () => Promise<boolean>;
@@ -42,6 +43,7 @@ export function SaveButton({
 
   return (
     <button
+      type="button"
       className={`btn btn-primary ${className}`}
       onClick={handleSave}
       disabled={disabled || saving || saved}

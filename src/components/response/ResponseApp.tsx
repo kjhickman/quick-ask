@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
 import { useStreamingResponse } from '@hooks/useStreamingResponse';
 import { UrlUtils } from '@utils/url-utils';
+import type React from 'react';
+import { useMemo } from 'react';
+import { LoadingSpinner } from './LoadingSpinner';
 import { QueryDisplay } from './QueryDisplay';
 import { StreamingResponse } from './StreamingResponse';
-import { LoadingSpinner } from './LoadingSpinner';
-import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
 
 export function ResponseApp(): React.ReactElement {
   // Get query from URL parameters
@@ -62,6 +63,7 @@ export function ResponseApp(): React.ReactElement {
               <ErrorDisplay error={error} />
               <div className="text-center">
                 <button
+                  type="button"
                   onClick={clearError}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md transition-colors"
                   style={{

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef } from 'react';
 
 export interface StreamingResponseProps {
   text: string;
@@ -18,7 +19,7 @@ export function StreamingResponse({
     if (responseRef.current) {
       responseRef.current.scrollTop = responseRef.current.scrollHeight;
     }
-  }, [text]);
+  }, []);
 
   if (!text) {
     return (

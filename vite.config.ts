@@ -1,17 +1,12 @@
-import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
+import tailwindcss from '@tailwindcss/postcss';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
-import tailwindcss from '@tailwindcss/postcss';
+import { defineConfig } from 'vite';
 import manifest from './manifest.json';
 
 export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    crx({
-      manifest,
-    }),
-  ],
+  plugins: [react(), crx({ manifest })],
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
@@ -25,17 +20,7 @@ export default defineConfig(({ mode }) => ({
         background: 'src/background/background.ts',
       },
     },
-    outDir: 'dist',
-    emptyOutDir: true,
-    target: 'esnext',
     minify: mode === 'production',
-  },
-  server: {
-    port: 5173,
-    strictPort: true,
-    hmr: {
-      port: 5174,
-    },
   },
   resolve: {
     alias: {
@@ -48,7 +33,6 @@ export default defineConfig(({ mode }) => ({
       '@hooks': '/src/hooks',
     },
   },
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
   define: {
     __DEV__: mode === 'development',
   },

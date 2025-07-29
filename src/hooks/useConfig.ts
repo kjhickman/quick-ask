@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Provider, ApiConfig } from '@config/constants';
+import type { ApiConfig, Provider } from '@config/constants';
 import ConfigService from '@services/config-service';
 import { ErrorService } from '@services/error-service';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {
   provider: Provider | '';
@@ -30,11 +30,7 @@ export function useConfig(): {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadConfig();
-  }, []);
-
-  const loadConfig = async (): Promise<void> => {
+  const loadConfig = useCallback(async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
@@ -51,7 +47,11 @@ export function useConfig(): {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadConfig();
+  }, [loadConfig]);
 
   const loadProviderConfig = async (provider: Provider): Promise<void> => {
     try {

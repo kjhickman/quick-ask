@@ -1,5 +1,5 @@
-import { createRoot } from 'react-dom/client';
 import { PopupApp } from '@components/popup/PopupApp';
+import { createRoot } from 'react-dom/client';
 
 // Ensure the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { ApiConfig } from '@config/constants';
+import type { ApiConfig } from '@config/constants';
 import ApiService from '@services/api-service';
 import ConfigService from '@services/config-service';
 import { ErrorService } from '@services/error-service';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface StreamingState {
   isLoading: boolean;
@@ -28,44 +28,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
     setState(prev => ({ ...prev, error: null }));
   };
 
-  const startStreaming = async (): Promise<void> => {
-    if (!query) {
-      setState(prev => ({ ...prev, error: 'No query provided' }));
-      return;
-    }
-
-    try {
-      setState(prev => ({
-        ...prev,
-        isLoading: true,
-        error: null,
-        responseText: '',
-        isStreaming: false,
-      }));
-
-      const config = await ConfigService.loadConfig();
-
-      if (ErrorService.isConfigurationError(config)) {
-        setState(prev => ({
-          ...prev,
-          isLoading: false,
-          error: ErrorService.getConfigurationErrorMessage(),
-        }));
-        return;
-      }
-
-      await streamResponse(query, config);
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        isStreaming: false,
-        error: ErrorService.handleError(error as Error),
-      }));
-    }
-  };
-
-  const streamResponse = async (query: string, config: ApiConfig): Promise<void> => {
+  const streamResponse = useCallback(async (query: string, config: ApiConfig): Promise<void> => {
     try {
       // Create new abort controller
       abortControllerRef.current = new AbortController();
@@ -117,7 +80,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
             // SSE format (OpenAI, LM Studio)
             data = line.slice(6);
             if (data === '[DONE]') continue;
-          } else if (line.trim() && line.trim().startsWith('{')) {
+          } else if (line.trim()?.startsWith('{')) {
             // Raw JSON format (Ollama)
             data = line.trim();
           } else {
@@ -158,7 +121,44 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         }));
       }
     }
-  };
+  }, []);
+
+  const startStreaming = useCallback(async (): Promise<void> => {
+    if (!query) {
+      setState(prev => ({ ...prev, error: 'No query provided' }));
+      return;
+    }
+
+    try {
+      setState(prev => ({
+        ...prev,
+        isLoading: true,
+        error: null,
+        responseText: '',
+        isStreaming: false,
+      }));
+
+      const config = await ConfigService.loadConfig();
+
+      if (ErrorService.isConfigurationError(config)) {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          error: ErrorService.getConfigurationErrorMessage(),
+        }));
+        return;
+      }
+
+      await streamResponse(query, config);
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        isStreaming: false,
+        error: ErrorService.handleError(error as Error),
+      }));
+    }
+  }, [query, streamResponse]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -174,7 +174,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
     if (query && !state.isLoading && !state.isStreaming && !state.responseText) {
       startStreaming();
     }
-  }, [query]);
+  }, [query, startStreaming, state.isLoading, state.isStreaming, state.responseText]);
 
   return {
     ...state,

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Provider } from '@config/constants';
+import type { Provider } from '@config/constants';
 import ConfigService from '@services/config-service';
+import type React from 'react';
 
 export interface ConfigurationFormProps {
   provider: Provider | '';

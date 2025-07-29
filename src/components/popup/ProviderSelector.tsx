@@ -1,5 +1,5 @@
-import React from 'react';
-import { Provider } from '@config/constants';
+import type { Provider } from '@config/constants';
+import type React from 'react';
 
 export interface ProviderSelectorProps {
   value: Provider | '';

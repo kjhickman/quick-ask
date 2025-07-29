@@ -1,4 +1,4 @@
-import { PROVIDERS, type Provider } from '@config/constants';
+import { PROVIDERS, type Provider } from '../../config/constants';
 import { AnthropicStrategy } from './anthropic-strategy';
 import type { LLMProviderStrategy } from './llm-provider-strategy';
 import { LMStudioStrategy } from './lmstudio-strategy';

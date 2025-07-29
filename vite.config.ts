@@ -15,8 +15,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       input: {
-        popup: 'src/pages/popup/popup.html',
-        response: 'src/pages/response/response.html',
+        popup: 'src/popup/index.html',
+        response: 'src/response/index.html',
         background: 'src/background/background.ts',
       },
     },
@@ -25,12 +25,13 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       '@': '/src',
-      '@components': '/src/components',
-      '@services': '/src/services',
-      '@utils': '/src/utils',
-      '@config': '/src/config',
+      '@popup': '/src/popup',
+      '@response': '/src/response',
       '@shared': '/src/shared',
-      '@hooks': '/src/hooks',
+      '@components': '/src/shared/components',
+      '@services': '/src/shared/services',
+      '@utils': '/src/shared/utils',
+      '@config': '/src/shared/config',
     },
   },
   define: {

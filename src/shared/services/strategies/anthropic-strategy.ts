@@ -7,7 +7,7 @@ import {
   type Provider,
   type RequestConfig,
   UI_CONSTANTS,
-} from '@config/constants';
+} from '../../config/constants';
 import type { LLMProviderStrategy } from './llm-provider-strategy';
 
 export class AnthropicStrategy implements LLMProviderStrategy {

@@ -1,6 +1,6 @@
-import type { ApiConfig, Provider } from '@config/constants';
-import ConfigService from '@services/config-service';
-import { ErrorService } from '@services/error-service';
+import type { ApiConfig, Provider } from '@shared/config/constants';
+import ConfigService from '@shared/services/config-service';
+import { ErrorService } from '@shared/services/error-service';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {

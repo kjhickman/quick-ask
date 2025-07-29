@@ -1,7 +1,7 @@
-import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
-import type { Provider } from '@config/constants';
-import { useConfig } from '@hooks/useConfig';
+import { ErrorDisplay } from '@shared/components/ErrorDisplay';
+import type { Provider } from '@shared/config/constants';
 import type React from 'react';
+import { useConfig } from '../hooks/useConfig';
 import { ConfigurationForm } from './ConfigurationForm';
 import { ProviderSelector } from './ProviderSelector';
 import { SaveButton } from './SaveButton';

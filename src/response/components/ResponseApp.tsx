@@ -1,8 +1,8 @@
-import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
-import { useStreamingResponse } from '@hooks/useStreamingResponse';
-import { UrlUtils } from '@utils/url-utils';
+import { ErrorDisplay } from '@shared/components/ErrorDisplay';
+import { UrlUtils } from '@shared/utils/url-utils';
 import type React from 'react';
 import { useMemo } from 'react';
+import { useStreamingResponse } from '../hooks/useStreamingResponse';
 import { LoadingSpinner } from './LoadingSpinner';
 import { QueryDisplay } from './QueryDisplay';
 import { StreamingResponse } from './StreamingResponse';

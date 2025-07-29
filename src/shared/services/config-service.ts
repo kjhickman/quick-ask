@@ -1,4 +1,4 @@
-import { type ApiConfig, DEFAULT_MODELS, PROVIDERS, type Provider } from '@config/constants';
+import { type ApiConfig, DEFAULT_MODELS, PROVIDERS, type Provider } from '../config/constants';
 
 interface ProviderConfig {
   apiKey: string;

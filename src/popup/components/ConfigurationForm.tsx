@@ -1,5 +1,5 @@
-import type { Provider } from '@config/constants';
-import ConfigService from '@services/config-service';
+import type { Provider } from '@shared/config/constants';
+import ConfigService from '@shared/services/config-service';
 import type React from 'react';
 
 export interface ConfigurationFormProps {

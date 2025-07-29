@@ -1,4 +1,4 @@
-import type { ApiConfig, Provider, RequestConfig } from '@config/constants';
+import type { ApiConfig, Provider, RequestConfig } from '../config/constants';
 import { LLMStrategyFactory } from './strategies/llm-strategy-factory';
 
 /**

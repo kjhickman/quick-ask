@@ -1,4 +1,4 @@
-import { type ApiConfig, ERROR_MESSAGES } from '@config/constants';
+import { type ApiConfig, ERROR_MESSAGES } from '../config/constants';
 
 // Error types
 export interface StandardError {

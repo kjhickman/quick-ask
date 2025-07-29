@@ -1,7 +1,7 @@
-import type { ApiConfig } from '@config/constants';
-import ApiService from '@services/api-service';
-import ConfigService from '@services/config-service';
-import { ErrorService } from '@services/error-service';
+import type { ApiConfig } from '@shared/config/constants';
+import ApiService from '@shared/services/api-service';
+import ConfigService from '@shared/services/config-service';
+import { ErrorService } from '@shared/services/error-service';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface StreamingState {

@@ -1,9 +1,7 @@
 chrome.omnibox.onInputEntered.addListener(
   (text: string, disposition: chrome.omnibox.OnInputEnteredDisposition) => {
     const url =
-      chrome.runtime.getURL('src/pages/response/response.html') +
-      '?query=' +
-      encodeURIComponent(text);
+      chrome.runtime.getURL('src/response/index.html') + '?query=' + encodeURIComponent(text);
 
     if (disposition === 'currentTab') {
       chrome.tabs.update({ url: url });

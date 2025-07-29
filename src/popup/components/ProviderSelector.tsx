@@ -1,4 +1,4 @@
-import type { Provider } from '@config/constants';
+import type { Provider } from '@shared/config/constants';
 import type React from 'react';
 
 export interface ProviderSelectorProps {

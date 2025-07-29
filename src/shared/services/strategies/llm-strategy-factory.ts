@@ -5,47 +5,50 @@ import { LMStudioStrategy } from './lmstudio-strategy';
 import { OllamaStrategy } from './ollama-strategy';
 import { OpenAIStrategy } from './openai-strategy';
 
+// Private strategy map
+const strategies: Map<Provider, LLMProviderStrategy> = new Map([
+  [PROVIDERS.OPENAI, new OpenAIStrategy()],
+  [PROVIDERS.ANTHROPIC, new AnthropicStrategy()],
+  [PROVIDERS.LMSTUDIO, new LMStudioStrategy()],
+  [PROVIDERS.OLLAMA, new OllamaStrategy()],
+]);
+
 /**
- * Factory for creating LLM provider strategies
+ * Get a strategy for the specified provider
+ * @param provider - The LLM provider
+ * @returns The corresponding strategy
+ * @throws Error if provider is not supported
  */
-export class LLMStrategyFactory {
-  private static strategies: Map<Provider, LLMProviderStrategy> = new Map([
-    [PROVIDERS.OPENAI, new OpenAIStrategy()],
-    [PROVIDERS.ANTHROPIC, new AnthropicStrategy()],
-    [PROVIDERS.LMSTUDIO, new LMStudioStrategy()],
-    [PROVIDERS.OLLAMA, new OllamaStrategy()],
-  ]);
+export function getStrategy(provider: Provider): LLMProviderStrategy {
+  const strategy = strategies.get(provider);
 
-  /**
-   * Get a strategy for the specified provider
-   * @param provider - The LLM provider
-   * @returns The corresponding strategy
-   * @throws Error if provider is not supported
-   */
-  static getStrategy(provider: Provider): LLMProviderStrategy {
-    const strategy = LLMStrategyFactory.strategies.get(provider);
-
-    if (!strategy) {
-      throw new Error(`Unsupported provider: ${provider}`);
-    }
-
-    return strategy;
+  if (!strategy) {
+    throw new Error(`Unsupported provider: ${provider}`);
   }
 
-  /**
-   * Get all available providers
-   * @returns Array of supported provider types
-   */
-  static getAvailableProviders(): Provider[] {
-    return Array.from(LLMStrategyFactory.strategies.keys());
-  }
-
-  /**
-   * Register a new strategy (for extensibility)
-   * @param provider - The provider type
-   * @param strategy - The strategy implementation
-   */
-  static registerStrategy(provider: Provider, strategy: LLMProviderStrategy): void {
-    LLMStrategyFactory.strategies.set(provider, strategy);
-  }
+  return strategy;
 }
+
+/**
+ * Get all available providers
+ * @returns Array of supported provider types
+ */
+export function getAvailableProviders(): Provider[] {
+  return Array.from(strategies.keys());
+}
+
+/**
+ * Register a new strategy (for extensibility)
+ * @param provider - The provider type
+ * @param strategy - The strategy implementation
+ */
+export function registerStrategy(provider: Provider, strategy: LLMProviderStrategy): void {
+  strategies.set(provider, strategy);
+}
+
+// Default export for backward compatibility
+export const LLMStrategyFactory = {
+  getStrategy,
+  getAvailableProviders,
+  registerStrategy,
+};

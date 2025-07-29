@@ -1,6 +1,7 @@
 import { PROVIDERS, type Provider } from '../config/constants';
 import { AnthropicStrategy } from './strategies/anthropic-strategy';
 import { LMStudioStrategy } from './strategies/lmstudio-strategy';
+import { MistralStrategy } from './strategies/mistral-strategy';
 import { OllamaStrategy } from './strategies/ollama-strategy';
 import { OpenAIStrategy } from './strategies/openai-strategy';
 import type { LLMProviderStrategy } from './types';
@@ -10,6 +11,7 @@ const strategies: Map<Provider, LLMProviderStrategy> = new Map([
   [PROVIDERS.ANTHROPIC, new AnthropicStrategy()],
   [PROVIDERS.LMSTUDIO, new LMStudioStrategy()],
   [PROVIDERS.OLLAMA, new OllamaStrategy()],
+  [PROVIDERS.MISTRAL, new MistralStrategy()],
 ]);
 
 export function getStrategy(provider: Provider): LLMProviderStrategy {

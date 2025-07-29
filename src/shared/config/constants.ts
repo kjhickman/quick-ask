@@ -3,6 +3,7 @@ export const API_ENDPOINTS = {
   ANTHROPIC: 'https://api.anthropic.com/v1/messages',
   LMSTUDIO: 'http://localhost:1234/v1/chat/completions',
   OLLAMA: 'http://localhost:11434/api/chat',
+  MISTRAL: 'https://api.mistral.ai/v1/chat/completions',
 } as const;
 
 export const DEFAULT_MODELS = {
@@ -10,6 +11,7 @@ export const DEFAULT_MODELS = {
   anthropic: 'claude-3-5-haiku-latest',
   lmstudio: 'google/gemma-3-4b',
   ollama: 'gemma3:4b',
+  mistral: 'mistral-small-latest',
 } as const;
 
 export const PROVIDERS = {
@@ -17,6 +19,7 @@ export const PROVIDERS = {
   ANTHROPIC: 'anthropic',
   LMSTUDIO: 'lmstudio',
   OLLAMA: 'ollama',
+  MISTRAL: 'mistral',
 } as const;
 
 export const UI_CONSTANTS = {
@@ -64,6 +67,16 @@ export interface OpenAIChoice {
 
 export interface OpenAIResponse {
   choices?: OpenAIChoice[];
+}
+
+export interface MistralChoice {
+  delta?: {
+    content?: string;
+  };
+}
+
+export interface MistralResponse {
+  choices?: MistralChoice[];
 }
 
 export interface AnthropicDelta {

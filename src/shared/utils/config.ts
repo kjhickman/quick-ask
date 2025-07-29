@@ -10,6 +10,7 @@ interface ProviderConfigs {
   [PROVIDERS.ANTHROPIC]: ProviderConfig;
   [PROVIDERS.LMSTUDIO]: ProviderConfig;
   [PROVIDERS.OLLAMA]: ProviderConfig;
+  [PROVIDERS.MISTRAL]: ProviderConfig;
 }
 
 export function getDefaultModel(provider: Provider): string {
@@ -22,6 +23,8 @@ export function getDefaultModel(provider: Provider): string {
       return DEFAULT_MODELS.lmstudio;
     case PROVIDERS.OLLAMA:
       return DEFAULT_MODELS.ollama;
+    case PROVIDERS.MISTRAL:
+      return DEFAULT_MODELS.mistral;
     default:
       return DEFAULT_MODELS.openai;
   }

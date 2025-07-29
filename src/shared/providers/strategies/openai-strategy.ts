@@ -1,50 +1,45 @@
 import {
   API_ENDPOINTS,
-  type ApiConfig,
   DEFAULT_MODELS,
   type OpenAIResponse,
   PROVIDERS,
   type Provider,
-  type RequestConfig,
-  UI_CONSTANTS,
 } from '../../config/constants';
-import type { LLMProviderStrategy } from '../types';
+import { BaseProviderStrategy } from './base-strategy';
 
-export class OpenAIStrategy implements LLMProviderStrategy {
-  createRequestConfig(query: string, config: ApiConfig): RequestConfig {
-    const { apiKey, model } = config;
+export class OpenAIStrategy extends BaseProviderStrategy {
+  getProviderType(): Provider {
+    return PROVIDERS.OPENAI;
+  }
 
-    const messages: Array<{ role: string; content: string }> = [];
+  getEndpointUrl(): string {
+    return API_ENDPOINTS.OPENAI;
+  }
 
-    messages.push({ role: 'system', content: UI_CONSTANTS.SYSTEM_PROMPT });
-    messages.push({ role: 'user', content: query });
+  getDefaultModel(): string {
+    return DEFAULT_MODELS.openai;
+  }
 
+  buildHeaders(apiKey?: string): Record<string, string> {
     return {
-      url: API_ENDPOINTS.OPENAI,
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: {
-        model: model || DEFAULT_MODELS.openai,
-        messages,
-        stream: true,
-      },
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    };
+  }
+
+  buildRequestBody(
+    messages: Array<{ role: string; content: string }>,
+    model: string
+  ): Record<string, unknown> {
+    return {
+      model,
+      messages,
+      stream: true,
     };
   }
 
   parseResponseChunk(data: string): string {
-    try {
-      const parsed = JSON.parse(data);
-      const openaiResponse = parsed as OpenAIResponse;
-      return openaiResponse.choices?.[0]?.delta?.content || '';
-    } catch (error) {
-      console.error('OpenAI: Error parsing chunk:', error);
-      return '';
-    }
-  }
-
-  getProviderType(): Provider {
-    return PROVIDERS.OPENAI;
+    const parsed = this.safeJsonParse<OpenAIResponse>(data);
+    return parsed?.choices?.[0]?.delta?.content || '';
   }
 }

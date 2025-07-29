@@ -1,6 +1,6 @@
 {
   "name": "quick-ask",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "description": "Get LLM responses directly from the address bar",
   "scripts": {
     "dev": "vite",

@@ -1,56 +1,56 @@
 import {
   type AnthropicResponse,
   API_ENDPOINTS,
-  type ApiConfig,
   DEFAULT_MODELS,
   PROVIDERS,
   type Provider,
-  type RequestConfig,
-  UI_CONSTANTS,
 } from '../../config/constants';
-import type { LLMProviderStrategy } from '../types';
+import { BaseProviderStrategy } from './base-strategy';
 
-export class AnthropicStrategy implements LLMProviderStrategy {
-  createRequestConfig(query: string, config: ApiConfig): RequestConfig {
-    const { apiKey, model } = config;
+export class AnthropicStrategy extends BaseProviderStrategy {
+  getProviderType(): Provider {
+    return PROVIDERS.ANTHROPIC;
+  }
 
-    const body: Record<string, unknown> = {
-      model: model || DEFAULT_MODELS.anthropic,
-      max_tokens: 4096,
-      messages: [{ role: 'user', content: query }],
-      stream: true,
-      system: UI_CONSTANTS.SYSTEM_PROMPT,
+  getEndpointUrl(): string {
+    return API_ENDPOINTS.ANTHROPIC;
+  }
+
+  getDefaultModel(): string {
+    return DEFAULT_MODELS.anthropic;
+  }
+
+  buildHeaders(apiKey?: string): Record<string, string> {
+    return {
+      'x-api-key': apiKey || '',
+      'Content-Type': 'application/json',
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
     };
+  }
+
+  buildRequestBody(
+    messages: Array<{ role: string; content: string }>,
+    model: string
+  ): Record<string, unknown> {
+    // Anthropic expects different format - separate system and user messages
+    const userMessage = messages.find(m => m.role === 'user');
+    const systemMessage = messages.find(m => m.role === 'system');
 
     return {
-      url: API_ENDPOINTS.ANTHROPIC,
-      headers: {
-        'x-api-key': apiKey,
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-      },
-      body,
+      model,
+      max_tokens: 4096,
+      messages: [{ role: 'user', content: userMessage?.content || '' }],
+      stream: true,
+      system: systemMessage?.content || '',
     };
   }
 
   parseResponseChunk(data: string): string {
-    try {
-      const parsed = JSON.parse(data);
-      const anthropicResponse = parsed as AnthropicResponse;
-
-      if (anthropicResponse.type === 'content_block_delta') {
-        return anthropicResponse.delta?.text || '';
-      }
-
-      return '';
-    } catch (error) {
-      console.error('Anthropic: Error parsing chunk:', error);
-      return '';
+    const parsed = this.safeJsonParse<AnthropicResponse>(data);
+    if (parsed?.type === 'content_block_delta') {
+      return parsed.delta?.text || '';
     }
-  }
-
-  getProviderType(): Provider {
-    return PROVIDERS.ANTHROPIC;
+    return '';
   }
 }

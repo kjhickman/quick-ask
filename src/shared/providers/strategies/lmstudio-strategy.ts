@@ -1,51 +1,46 @@
 import {
   API_ENDPOINTS,
-  type ApiConfig,
   DEFAULT_MODELS,
   type OpenAIResponse,
   PROVIDERS,
   type Provider,
-  type RequestConfig,
-  UI_CONSTANTS,
 } from '../../config/constants';
-import type { LLMProviderStrategy } from '../types';
+import { BaseProviderStrategy } from './base-strategy';
 
-export class LMStudioStrategy implements LLMProviderStrategy {
-  createRequestConfig(query: string, config: ApiConfig): RequestConfig {
-    const { model } = config;
+export class LMStudioStrategy extends BaseProviderStrategy {
+  getProviderType(): Provider {
+    return PROVIDERS.LMSTUDIO;
+  }
 
-    const messages: Array<{ role: string; content: string }> = [];
+  getEndpointUrl(): string {
+    return API_ENDPOINTS.LMSTUDIO;
+  }
 
-    messages.push({ role: 'system', content: UI_CONSTANTS.SYSTEM_PROMPT });
-    messages.push({ role: 'user', content: query });
+  getDefaultModel(): string {
+    return DEFAULT_MODELS.lmstudio;
+  }
 
+  buildHeaders(): Record<string, string> {
     return {
-      url: API_ENDPOINTS.LMSTUDIO,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        model: model || DEFAULT_MODELS.lmstudio,
-        messages,
-        stream: true,
-        temperature: 0.7,
-        max_tokens: 2000,
-      },
+      'Content-Type': 'application/json',
+    };
+  }
+
+  buildRequestBody(
+    messages: Array<{ role: string; content: string }>,
+    model: string
+  ): Record<string, unknown> {
+    return {
+      model,
+      messages,
+      stream: true,
+      temperature: 0.7,
+      max_tokens: 2000,
     };
   }
 
   parseResponseChunk(data: string): string {
-    try {
-      const parsed = JSON.parse(data);
-      const openAIResponse = parsed as OpenAIResponse;
-      return openAIResponse.choices?.[0]?.delta?.content || '';
-    } catch (error) {
-      console.error('LMStudio: Error parsing chunk:', error);
-      return '';
-    }
-  }
-
-  getProviderType(): Provider {
-    return PROVIDERS.LMSTUDIO;
+    const parsed = this.safeJsonParse<OpenAIResponse>(data);
+    return parsed?.choices?.[0]?.delta?.content || '';
   }
 }

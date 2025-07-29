@@ -1,26 +1,16 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>QuickAsk Response</title>
-    <link rel="stylesheet" href="../../shared/css/tailwind.css" />
-  </head>
 
-  <body class="response-body">
-    <div class="query-section">
-      <strong>Query:</strong>
-      <span id="queryText"></span>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>QuickAsk Response</title>
+  <link rel="stylesheet" href="../../shared/css/tailwind.css" />
+</head>
 
-    <div class="response-container">
-      <div class="loading-spinner" id="loading">
-        <div class="spinner-icon"></div>
-        <div class="loading-text">Thinking...</div>
-      </div>
-      <pre id="responseText" class="response-text" style="display: none"></pre>
-      <div id="error" class="error-display"></div>
-    </div>
+<body class="response-body">
+  <div id="root"></div>
 
-    <script type="module" src="response-controller.ts"></script>
-  </body>
+  <script type="module" src="response.tsx"></script>
+</body>
+
 </html>

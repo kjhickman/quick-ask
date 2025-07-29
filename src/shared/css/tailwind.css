@@ -1,0 +1,270 @@
+@import 'tailwindcss';
+
+/* Base styles and CSS custom properties for light/dark mode */
+:root {
+  /* Light Mode Colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #f0f0f0;
+  --color-bg-accent: #e9ecef;
+
+  --color-text-primary: #333333;
+  --color-text-secondary: #555555;
+  --color-text-muted: #666666;
+  --color-text-inverse: #ffffff;
+
+  --color-border-primary: #cccccc;
+  --color-border-secondary: #dddddd;
+  --color-border-light: #e9ecef;
+
+  --color-primary: #007acc;
+  --color-primary-hover: #005a9e;
+  --color-primary-light: rgba(0, 122, 204, 0.2);
+
+  --color-error: #dc3545;
+  --color-error-bg: #fee;
+  --color-error-border: #fcc;
+  --color-error-text: #c33;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 2px var(--color-primary-light);
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition-fast: 0.2s ease;
+}
+
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #1a1a1a;
+    --color-bg-secondary: #2d2d2d;
+    --color-bg-tertiary: #3a3a3a;
+    --color-bg-accent: #404040;
+
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #cccccc;
+    --color-text-muted: #999999;
+    --color-text-inverse: #1a1a1a;
+
+    --color-border-primary: #555555;
+    --color-border-secondary: #444444;
+    --color-border-light: #3a3a3a;
+
+    --color-primary: #4da6ff;
+    --color-primary-hover: #66b3ff;
+    --color-primary-light: rgba(77, 166, 255, 0.2);
+
+    --color-error: #ff6b6b;
+    --color-error-bg: #3a1a1a;
+    --color-error-border: #5a2d2d;
+    --color-error-text: #ffb3b3;
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Custom component classes for QuickAsk */
+@layer components {
+  /* Base body styles for popup */
+  .popup-body {
+    @apply w-96 min-h-96 max-h-96 m-0 overflow-y-auto box-border;
+    padding: var(--spacing-xl);
+    font-family: var(--font-family);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  /* Base body styles for response page */
+  .response-body {
+    @apply max-w-4xl mx-auto;
+    padding: var(--spacing-xl);
+    font-family: var(--font-family);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  /* Query section in response page */
+  .query-section {
+    @apply mb-5 p-4 rounded;
+    background: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-primary);
+    font-weight: 500;
+  }
+
+  /* Response container */
+  .response-container {
+    @apply p-5 rounded border min-h-24;
+    background: var(--color-bg-primary);
+    border-color: var(--color-border-secondary);
+    line-height: 1.6;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium cursor-pointer w-full;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    transition:
+      background-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .btn:hover {
+    background: var(--color-primary-hover);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn:disabled {
+    @apply opacity-60 cursor-not-allowed;
+    background: var(--color-text-muted);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+  }
+
+  .form-input {
+    @apply block w-full mb-2 box-border;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .form-input:focus {
+    @apply outline-none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .form-select {
+    @apply block w-full mb-2 box-border;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .form-select:focus {
+    @apply outline-none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .form-label {
+    @apply block mb-1 font-medium;
+    color: var(--color-text-secondary);
+  }
+
+  .error-display {
+    @apply p-3 rounded text-sm;
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    color: var(--color-error-text);
+  }
+
+  .help-text {
+    @apply text-xs mt-1;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .config-container {
+    @apply bg-transparent rounded-none p-0;
+    box-shadow: none;
+  }
+
+  .config-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .step-title {
+    @apply text-lg font-semibold m-0 pb-2 border-b;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-border-light);
+  }
+
+  .provider-config {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .loading-spinner {
+    @apply flex items-center gap-2;
+    color: var(--color-text-muted);
+  }
+
+  .spinner-icon {
+    @apply w-4 h-4 border-2 rounded-full;
+    border-color: var(--color-border-light);
+    border-top-color: var(--color-primary);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-text {
+    @apply text-sm;
+    color: var(--color-text-muted);
+  }
+
+  /* Response text styling */
+  .response-text {
+    @apply whitespace-pre-wrap break-words font-mono text-sm leading-relaxed;
+    color: var(--color-text-primary);
+  }
+}

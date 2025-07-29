@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => ({
       manifest,
     }),
   ],
+  css: {
+    postcss: './postcss.config.js',
+  },
   build: {
     rollupOptions: {
       input: {

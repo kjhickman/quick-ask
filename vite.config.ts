@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
+import react from '@vitejs/plugin-react';
 import manifest from './manifest.json';
 
 export default defineConfig(({ mode }) => ({
   plugins: [
+    react(),
     crx({
       manifest,
     }),
@@ -39,6 +41,7 @@ export default defineConfig(({ mode }) => ({
       '@utils': '/src/utils',
       '@config': '/src/config',
       '@shared': '/src/shared',
+      '@hooks': '/src/hooks',
     },
   },
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],

@@ -1,55 +1,14 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>QuickAsk Configuration</title>
+    <link rel="stylesheet" href="../../shared/css/tailwind.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>QuickAsk Configuration</title>
-  <link rel="stylesheet" href="../../shared/css/tailwind.css" />
-</head>
+  <body class="popup-body">
+    <div id="root"></div>
 
-<body class="popup-body">
-  <div class="config-container">
-    <div class="config-section">
-      <h3 class="step-title">Choose your AI provider</h3>
-      <label for="provider" class="form-label">LLM Provider:</label>
-      <select id="provider" class="form-select">
-        <option value="">Select a provider...</option>
-        <option value="openai">OpenAI (GPT)</option>
-        <option value="anthropic">Anthropic (Claude)</option>
-        <option value="lmstudio">LM Studio (Local)</option>
-        <option value="ollama">Ollama (Local)</option>
-      </select>
-    </div>
-
-    <div id="providerConfig" class="provider-config" style="display: none">
-      <!-- API Key Section (for cloud providers) -->
-      <div id="apiKeySection" class="config-section" style="display: none">
-        <h3 class="step-title">Enter your API key</h3>
-        <label for="apiKey" class="form-label">API Key:</label>
-        <input type="password" id="apiKey" class="form-input" placeholder="Enter your API key" />
-        <div class="help-text">
-          <span id="apiKeyHelp"></span>
-        </div>
-      </div>
-
-      <div id="modelSection" class="config-section" style="display: none">
-        <h3 class="step-title">Configure your model</h3>
-        <label for="model" class="form-label">Model:</label>
-        <input type="text" id="model" class="form-input" placeholder="" />
-        <div class="help-text">
-          <span id="modelHelp"></span>
-        </div>
-      </div>
-    </div>
-
-    <div id="error" class="error-display"></div>
-
-    <div id="saveSection" style="display: none">
-      <button id="save" class="btn btn-primary">Save Configuration</button>
-    </div>
-  </div>
-
-  <script type="module" src="popup-controller.ts"></script>
-</body>
-
+    <script type="module" src="popup.tsx"></script>
+  </body>
 </html>

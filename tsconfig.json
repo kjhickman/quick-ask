@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "lib": ["ES2020", "DOM"],
     "types": ["chrome", "vite/client"],
     "baseUrl": ".",
@@ -21,7 +22,8 @@
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
       "@config/*": ["src/config/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src/**/*", "vite.config.ts"],

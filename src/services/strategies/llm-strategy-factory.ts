@@ -1,9 +1,9 @@
-import { Provider, PROVIDERS } from '../../config/constants.js';
-import { LLMProviderStrategy } from './llm-provider-strategy.js';
-import { OpenAIStrategy } from './openai-strategy.js';
-import { AnthropicStrategy } from './anthropic-strategy.js';
-import { LMStudioStrategy } from './lmstudio-strategy.js';
-import { OllamaStrategy } from './ollama-strategy.js';
+import { Provider, PROVIDERS } from '../../config/constants';
+import { LLMProviderStrategy } from './llm-provider-strategy';
+import { OpenAIStrategy } from './openai-strategy';
+import { AnthropicStrategy } from './anthropic-strategy';
+import { LMStudioStrategy } from './lmstudio-strategy';
+import { OllamaStrategy } from './ollama-strategy';
 
 /**
  * Factory for creating LLM provider strategies

@@ -7,8 +7,8 @@ import {
   type ApiConfig,
   type RequestConfig,
   type OpenAIResponse,
-} from '../../config/constants.js';
-import { LLMProviderStrategy } from './llm-provider-strategy.js';
+} from '../../config/constants';
+import { LLMProviderStrategy } from './llm-provider-strategy';
 
 /**
  * LM Studio provider strategy implementation

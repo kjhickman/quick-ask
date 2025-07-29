@@ -7,8 +7,8 @@ import {
   type ApiConfig,
   type RequestConfig,
   type OllamaResponse,
-} from '../../config/constants.js';
-import { LLMProviderStrategy } from './llm-provider-strategy.js';
+} from '../../config/constants';
+import { LLMProviderStrategy } from './llm-provider-strategy';
 
 /**
  * Ollama provider strategy implementation

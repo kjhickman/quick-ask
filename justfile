@@ -6,9 +6,9 @@ default:
 build:
     npm run build
 
-# Watch for changes and rebuild automatically
-watch:
-    npm run watch
+# Start development server with hot reload
+dev:
+    npm run dev
 
 # Clean build artifacts
 clean:

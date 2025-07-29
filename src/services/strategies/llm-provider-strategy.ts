@@ -1,4 +1,4 @@
-import { Provider, type ApiConfig, type RequestConfig } from '../../config/constants.js';
+import { Provider, type ApiConfig, type RequestConfig } from '../../config/constants';
 
 /**
  * Base interface for LLM provider strategies

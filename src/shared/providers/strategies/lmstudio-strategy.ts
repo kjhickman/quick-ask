@@ -2,15 +2,15 @@ import {
   API_ENDPOINTS,
   type ApiConfig,
   DEFAULT_MODELS,
-  type OllamaResponse,
+  type OpenAIResponse,
   PROVIDERS,
   type Provider,
   type RequestConfig,
   UI_CONSTANTS,
 } from '../../config/constants';
-import type { LLMProviderStrategy } from './llm-provider-strategy';
+import type { LLMProviderStrategy } from '../types';
 
-export class OllamaStrategy implements LLMProviderStrategy {
+export class LMStudioStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {
     const { model } = config;
 
@@ -20,14 +20,16 @@ export class OllamaStrategy implements LLMProviderStrategy {
     messages.push({ role: 'user', content: query });
 
     return {
-      url: API_ENDPOINTS.OLLAMA,
+      url: API_ENDPOINTS.LMSTUDIO,
       headers: {
         'Content-Type': 'application/json',
       },
       body: {
-        model: model || DEFAULT_MODELS.ollama,
+        model: model || DEFAULT_MODELS.lmstudio,
         messages,
         stream: true,
+        temperature: 0.7,
+        max_tokens: 2000,
       },
     };
   }
@@ -35,15 +37,15 @@ export class OllamaStrategy implements LLMProviderStrategy {
   parseResponseChunk(data: string): string {
     try {
       const parsed = JSON.parse(data);
-      const ollamaResponse = parsed as OllamaResponse;
-      return ollamaResponse.message?.content || '';
+      const openAIResponse = parsed as OpenAIResponse;
+      return openAIResponse.choices?.[0]?.delta?.content || '';
     } catch (error) {
-      console.error('Ollama: Error parsing chunk:', error);
+      console.error('LMStudio: Error parsing chunk:', error);
       return '';
     }
   }
 
   getProviderType(): Provider {
-    return PROVIDERS.OLLAMA;
+    return PROVIDERS.LMSTUDIO;
   }
 }

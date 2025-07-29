@@ -1,9 +1,9 @@
-import { PROVIDERS, type Provider } from '../../config/constants';
-import { AnthropicStrategy } from './anthropic-strategy';
-import type { LLMProviderStrategy } from './llm-provider-strategy';
-import { LMStudioStrategy } from './lmstudio-strategy';
-import { OllamaStrategy } from './ollama-strategy';
-import { OpenAIStrategy } from './openai-strategy';
+import { PROVIDERS, type Provider } from '../config/constants';
+import { AnthropicStrategy } from './strategies/anthropic-strategy';
+import { LMStudioStrategy } from './strategies/lmstudio-strategy';
+import { OllamaStrategy } from './strategies/ollama-strategy';
+import { OpenAIStrategy } from './strategies/openai-strategy';
+import type { LLMProviderStrategy } from './types';
 
 const strategies: Map<Provider, LLMProviderStrategy> = new Map([
   [PROVIDERS.OPENAI, new OpenAIStrategy()],
@@ -29,9 +29,3 @@ export function getAvailableProviders(): Provider[] {
 export function registerStrategy(provider: Provider, strategy: LLMProviderStrategy): void {
   strategies.set(provider, strategy);
 }
-
-export const LLMStrategyFactory = {
-  getStrategy,
-  getAvailableProviders,
-  registerStrategy,
-};

@@ -1,4 +1,4 @@
-import type { ApiConfig, Provider, RequestConfig } from '../../config/constants';
+import type { ApiConfig, Provider, RequestConfig } from '../config/constants';
 
 export interface LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig;

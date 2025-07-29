@@ -1,16 +1,14 @@
 import type { ApiConfig, Provider, RequestConfig } from '../config/constants';
-import { LLMStrategyFactory } from '../services/strategies/llm-strategy-factory';
+import { getAvailableProviders, getStrategy } from '../providers';
 
 export function createRequestConfig(query: string, config: ApiConfig): RequestConfig {
-  const strategy = LLMStrategyFactory.getStrategy(config.provider);
+  const strategy = getStrategy(config.provider);
   return strategy.createRequestConfig(query, config);
 }
 
 export function parseResponseChunk(data: string, provider: Provider): string {
-  const strategy = LLMStrategyFactory.getStrategy(provider);
+  const strategy = getStrategy(provider);
   return strategy.parseResponseChunk(data);
 }
 
-export function getAvailableProviders(): Provider[] {
-  return LLMStrategyFactory.getAvailableProviders();
-}
+export { getAvailableProviders };

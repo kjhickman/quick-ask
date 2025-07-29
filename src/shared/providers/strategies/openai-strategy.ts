@@ -8,7 +8,7 @@ import {
   type RequestConfig,
   UI_CONSTANTS,
 } from '../../config/constants';
-import type { LLMProviderStrategy } from './llm-provider-strategy';
+import type { LLMProviderStrategy } from '../types';
 
 export class OpenAIStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {

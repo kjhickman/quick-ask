@@ -8,7 +8,6 @@ import { QueryDisplay } from './QueryDisplay';
 import { StreamingResponse } from './StreamingResponse';
 
 export function ResponseApp(): React.ReactElement {
-  // Get query from URL parameters
   const query = useMemo(() => {
     return UrlUtils.getQueryParam('query');
   }, []);

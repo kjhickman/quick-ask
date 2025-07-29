@@ -27,8 +27,7 @@ export function PopupApp(): React.ReactElement {
   };
 
   const handleModelFocus = (): void => {
-    // This is called when the model field is focused
-    // The actual default model setting is handled in ConfigurationForm
+    // Default model setting is handled in ConfigurationForm
   };
 
   const handleSave = async (): Promise<boolean> => {

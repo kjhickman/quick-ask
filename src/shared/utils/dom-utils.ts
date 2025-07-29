@@ -1,7 +1,3 @@
-/**
- * DOM manipulation utilities
- */
-
 export function getElementById(id: string): HTMLElement | null {
   const element = document.getElementById(id);
   if (!element) {
@@ -61,7 +57,6 @@ export function createElement(
   return element;
 }
 
-// Default export for backward compatibility
 export const DomUtils = {
   getElementById,
   setTextContent,

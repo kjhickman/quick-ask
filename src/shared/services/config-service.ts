@@ -12,11 +12,6 @@ interface ProviderConfigs {
   [PROVIDERS.OLLAMA]: ProviderConfig;
 }
 
-/**
- * Get the default model for a provider
- * @param provider - The LLM provider
- * @returns The default model name
- */
 export function getDefaultModel(provider: Provider): string {
   switch (provider) {
     case PROVIDERS.OPENAI:
@@ -110,7 +105,6 @@ export async function getAllProviderConfigs(): Promise<Partial<ProviderConfigs>>
   return (result.providerConfigs as Partial<ProviderConfigs>) || {};
 }
 
-// Default export for backward compatibility
 const ConfigService = {
   loadConfig,
   saveConfig,

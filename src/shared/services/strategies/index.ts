@@ -1,5 +1,3 @@
-// Strategy pattern exports
-
 export { AnthropicStrategy } from './anthropic-strategy';
 export { LLMProviderStrategy } from './llm-provider-strategy';
 export { LLMStrategyFactory } from './llm-strategy-factory';

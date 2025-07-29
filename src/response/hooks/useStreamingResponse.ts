@@ -30,11 +30,10 @@ export function useStreamingResponse(query: string | null): StreamingState & {
 
   const streamResponse = useCallback(async (query: string, config: ApiConfig): Promise<void> => {
     try {
-      // Create new abort controller
       abortControllerRef.current = new AbortController();
       const timeoutId = setTimeout(() => {
         abortControllerRef.current?.abort();
-      }, 30000); // 30 second timeout
+      }, 30000);
 
       const { url, headers, body } = ApiService.createRequestConfig(query, config);
 
@@ -51,7 +50,6 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         throw new Error(ErrorService.formatApiError(response));
       }
 
-      // Switch to streaming state
       setState(prev => ({
         ...prev,
         isLoading: false,
@@ -77,11 +75,9 @@ export function useStreamingResponse(query: string | null): StreamingState & {
           let data = '';
 
           if (line.startsWith('data: ')) {
-            // SSE format (OpenAI, LM Studio)
             data = line.slice(6);
             if (data === '[DONE]') continue;
           } else if (line.trim()?.startsWith('{')) {
-            // Raw JSON format (Ollama)
             data = line.trim();
           } else {
             continue;
@@ -99,7 +95,6 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         }
       }
 
-      // Streaming complete
       setState(prev => ({
         ...prev,
         isStreaming: false,
@@ -160,7 +155,6 @@ export function useStreamingResponse(query: string | null): StreamingState & {
     }
   }, [query, streamResponse]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return (): void => {
       if (abortControllerRef.current) {
@@ -169,7 +163,6 @@ export function useStreamingResponse(query: string | null): StreamingState & {
     };
   }, []);
 
-  // Auto-start streaming when query is available
   useEffect(() => {
     if (query && !state.isLoading && !state.isStreaming && !state.responseText) {
       startStreaming();

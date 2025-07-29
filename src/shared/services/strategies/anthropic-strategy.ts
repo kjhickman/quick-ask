@@ -19,7 +19,7 @@ export class AnthropicStrategy implements LLMProviderStrategy {
       max_tokens: 4096,
       messages: [{ role: 'user', content: query }],
       stream: true,
-      system: UI_CONSTANTS.SYSTEM_PROMPT, // Add static system prompt
+      system: UI_CONSTANTS.SYSTEM_PROMPT,
     };
 
     return {

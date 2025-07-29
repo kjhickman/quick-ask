@@ -1,7 +1,3 @@
-/**
- * URL manipulation utilities
- */
-
 export function getQueryParam(param: string): string | null {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
@@ -29,7 +25,6 @@ export function isValidUrl(url: string): boolean {
   }
 }
 
-// Default export for backward compatibility
 export const UrlUtils = {
   getQueryParam,
   createResponseUrl,

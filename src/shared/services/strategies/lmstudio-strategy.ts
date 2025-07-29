@@ -10,20 +10,13 @@ import {
 } from '../../config/constants';
 import type { LLMProviderStrategy } from './llm-provider-strategy';
 
-/**
- * LM Studio provider strategy implementation
- * Uses OpenAI-compatible API format
- */
 export class LMStudioStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {
     const { model } = config;
 
     const messages: Array<{ role: string; content: string }> = [];
 
-    // Add static system prompt
     messages.push({ role: 'system', content: UI_CONSTANTS.SYSTEM_PROMPT });
-
-    // Add user query
     messages.push({ role: 'user', content: query });
 
     return {

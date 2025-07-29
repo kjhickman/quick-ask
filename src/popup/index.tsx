@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { PopupApp } from './components/PopupApp';
 
-// Ensure the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('root');
   if (!container) {

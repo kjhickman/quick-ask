@@ -14,7 +14,6 @@ export function StreamingResponse({
 }: StreamingResponseProps): React.ReactElement {
   const responseRef = useRef<HTMLPreElement>(null);
 
-  // Auto-scroll to bottom as content streams in
   useEffect(() => {
     if (responseRef.current) {
       responseRef.current.scrollTop = responseRef.current.scrollHeight;

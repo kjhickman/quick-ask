@@ -16,10 +16,7 @@ export class OpenAIStrategy implements LLMProviderStrategy {
 
     const messages: Array<{ role: string; content: string }> = [];
 
-    // Add static system prompt
     messages.push({ role: 'system', content: UI_CONSTANTS.SYSTEM_PROMPT });
-
-    // Add user query
     messages.push({ role: 'user', content: query });
 
     return {

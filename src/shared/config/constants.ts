@@ -1,7 +1,3 @@
-/**
- * Application constants and configuration
- */
-
 export const API_ENDPOINTS = {
   OPENAI: 'https://api.openai.com/v1/chat/completions',
   ANTHROPIC: 'https://api.anthropic.com/v1/messages',
@@ -43,27 +39,23 @@ export const ERROR_MESSAGES = {
     'Ollama server is not running. Please start Ollama and ensure the server is running on port 11434.',
 } as const;
 
-// Type definitions
 export type Provider = (typeof PROVIDERS)[keyof typeof PROVIDERS];
 export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS];
 export type DefaultModel = (typeof DEFAULT_MODELS)[keyof typeof DEFAULT_MODELS];
 export type ErrorMessage = (typeof ERROR_MESSAGES)[keyof typeof ERROR_MESSAGES];
 
-// Configuration interface
 export interface ApiConfig {
   provider: Provider;
   apiKey: string;
   model?: string;
 }
 
-// Request configuration interface
 export interface RequestConfig {
   url: string;
   headers: Record<string, string>;
   body: Record<string, unknown>;
 }
 
-// API response interfaces
 export interface OpenAIChoice {
   delta?: {
     content?: string;

@@ -1,7 +1,12 @@
 import type { ApiConfig } from '@shared/config/constants';
-import ApiUtils from '@shared/utils/api-utils';
-import ConfigUtils from '@shared/utils/config-utils';
-import { ErrorUtils } from '@shared/utils/error-utils';
+import { createRequestConfig, parseResponseChunk } from '@shared/utils/api-utils';
+import { loadConfig } from '@shared/utils/config-utils';
+import {
+  formatApiError,
+  getConfigurationErrorMessage,
+  handleError,
+  isConfigurationError,
+} from '@shared/utils/error-utils';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface StreamingState {
@@ -35,7 +40,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         abortControllerRef.current?.abort();
       }, 30000);
 
-      const { url, headers, body } = ApiUtils.createRequestConfig(query, config);
+      const { url, headers, body } = createRequestConfig(query, config);
 
       const response = await fetch(url, {
         method: 'POST',
@@ -47,7 +52,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(ErrorUtils.formatApiError(response));
+        throw new Error(formatApiError(response));
       }
 
       setState(prev => ({
@@ -83,7 +88,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
             continue;
           }
 
-          const content = ApiUtils.parseResponseChunk(data, config.provider);
+          const content = parseResponseChunk(data, config.provider);
 
           if (content) {
             responseText += content;
@@ -112,7 +117,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
           ...prev,
           isLoading: false,
           isStreaming: false,
-          error: ErrorUtils.handleError(error as Error),
+          error: handleError(error as Error),
         }));
       }
     }
@@ -133,13 +138,13 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         isStreaming: false,
       }));
 
-      const config = await ConfigUtils.loadConfig();
+      const config = await loadConfig();
 
-      if (ErrorUtils.isConfigurationError(config)) {
+      if (isConfigurationError(config)) {
         setState(prev => ({
           ...prev,
           isLoading: false,
-          error: ErrorUtils.getConfigurationErrorMessage(),
+          error: getConfigurationErrorMessage(),
         }));
         return;
       }
@@ -150,7 +155,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         ...prev,
         isLoading: false,
         isStreaming: false,
-        error: ErrorUtils.handleError(error as Error),
+        error: handleError(error as Error),
       }));
     }
   }, [query, streamResponse]);

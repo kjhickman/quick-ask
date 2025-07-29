@@ -73,13 +73,3 @@ export function clearError(elementId: string): void {
     element.style.display = 'none';
   }
 }
-
-export const ErrorUtils = {
-  formatApiError,
-  isConfigurationError,
-  getConfigurationErrorMessage,
-  handleError,
-  createError,
-  displayError,
-  clearError,
-};

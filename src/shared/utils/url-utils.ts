@@ -24,10 +24,3 @@ export function isValidUrl(url: string): boolean {
     return false;
   }
 }
-
-export const UrlUtils = {
-  getQueryParam,
-  createResponseUrl,
-  safeDecodeURIComponent,
-  isValidUrl,
-};

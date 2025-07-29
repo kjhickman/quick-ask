@@ -14,11 +14,3 @@ export function parseResponseChunk(data: string, provider: Provider): string {
 export function getAvailableProviders(): Provider[] {
   return LLMStrategyFactory.getAvailableProviders();
 }
-
-const ApiUtils = {
-  createRequestConfig,
-  parseResponseChunk,
-  getAvailableProviders,
-};
-
-export default ApiUtils;

@@ -1,5 +1,5 @@
 import { ErrorDisplay } from '@shared/components/ErrorDisplay';
-import { UrlUtils } from '@shared/utils/url-utils';
+import { getQueryParam } from '@shared/utils/url-utils';
 import type React from 'react';
 import { useMemo } from 'react';
 import { useStreamingResponse } from '../hooks/useStreamingResponse';
@@ -9,7 +9,7 @@ import { StreamingResponse } from './StreamingResponse';
 
 export function ResponseApp(): React.ReactElement {
   const query = useMemo(() => {
-    return UrlUtils.getQueryParam('query');
+    return getQueryParam('query');
   }, []);
 
   const { isLoading, responseText, error, isStreaming, clearError } = useStreamingResponse(query);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "QuickAsk",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "Get LLM responses directly from the address bar",
   "permissions": ["activeTab", "storage"],
   "host_permissions": [

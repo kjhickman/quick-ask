@@ -104,13 +104,3 @@ export async function getAllProviderConfigs(): Promise<Partial<ProviderConfigs>>
   const result = await chrome.storage.sync.get(['providerConfigs']);
   return (result.providerConfigs as Partial<ProviderConfigs>) || {};
 }
-
-const ConfigUtils = {
-  loadConfig,
-  saveConfig,
-  loadProviderConfig,
-  getAllProviderConfigs,
-  getDefaultModel,
-};
-
-export default ConfigUtils;

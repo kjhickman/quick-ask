@@ -56,12 +56,3 @@ export function createElement(
   parent.appendChild(element);
   return element;
 }
-
-export const DomUtils = {
-  getElementById,
-  setTextContent,
-  setInnerHTML,
-  toggleVisibility,
-  addEventListener,
-  createElement,
-};

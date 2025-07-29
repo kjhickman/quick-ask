@@ -1,4 +1,4 @@
-import { Provider, PROVIDERS } from '../../config/constants';
+import { Provider, PROVIDERS } from '@config/constants';
 import { LLMProviderStrategy } from './llm-provider-strategy';
 import { OpenAIStrategy } from './openai-strategy';
 import { AnthropicStrategy } from './anthropic-strategy';

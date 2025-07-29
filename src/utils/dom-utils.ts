@@ -2,11 +2,6 @@
  * DOM manipulation utilities
  */
 export class DomUtils {
-  /**
-   * Safely get element by ID
-   * @param id - The element ID
-   * @returns The element or null if not found
-   */
   static getElementById(id: string): HTMLElement | null {
     const element = document.getElementById(id);
     if (!element) {
@@ -15,11 +10,6 @@ export class DomUtils {
     return element;
   }
 
-  /**
-   * Set element text content safely
-   * @param id - The element ID
-   * @param text - The text to set
-   */
   static setTextContent(id: string, text: string): void {
     const element = this.getElementById(id);
     if (element) {
@@ -27,11 +17,6 @@ export class DomUtils {
     }
   }
 
-  /**
-   * Set element HTML content safely
-   * @param id - The element ID
-   * @param html - The HTML to set
-   */
   static setInnerHTML(id: string, html: string): void {
     const element = this.getElementById(id);
     if (element) {
@@ -39,11 +24,6 @@ export class DomUtils {
     }
   }
 
-  /**
-   * Toggle element visibility
-   * @param id - The element ID
-   * @param show - Whether to show or hide
-   */
   static toggleVisibility(id: string, show: boolean): void {
     const element = this.getElementById(id);
     if (element) {
@@ -51,12 +31,6 @@ export class DomUtils {
     }
   }
 
-  /**
-   * Add event listener safely
-   * @param id - The element ID
-   * @param event - The event type
-   * @param handler - The event handler
-   */
   static addEventListener(id: string, event: string, handler: EventListener): void {
     const element = this.getElementById(id);
     if (element) {
@@ -64,14 +38,6 @@ export class DomUtils {
     }
   }
 
-  /**
-   * Create and append element
-   * @param tag - The HTML tag
-   * @param parentId - The parent element ID
-   * @param attributes - Attributes to set
-   * @param textContent - Text content
-   * @returns The created element
-   */
   static createElement(
     tag: string,
     parentId: string,

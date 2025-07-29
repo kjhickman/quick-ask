@@ -4,7 +4,7 @@ import { UrlUtils } from '@utils/url-utils';
 import { QueryDisplay } from './QueryDisplay';
 import { StreamingResponse } from './StreamingResponse';
 import { LoadingSpinner } from './LoadingSpinner';
-import { ErrorDisplay } from '../error-display/ErrorDisplay';
+import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
 
 export function ResponseApp(): React.ReactElement {
   // Get query from URL parameters

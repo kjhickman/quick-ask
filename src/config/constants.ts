@@ -32,11 +32,6 @@ export const UI_CONSTANTS = {
     "You are a helpful AI assistant. Provide clear, concise, and accurate responses. When answering technical questions, be specific and include practical examples when appropriate. You can only answer the question, there will be no follow up question so don't ask a question at the end.",
 } as const;
 
-export const STORAGE_KEYS = {
-  CONFIG: 'quickask_config',
-  HISTORY: 'quickask_history',
-} as const;
-
 export const ERROR_MESSAGES = {
   NO_API_KEY: 'Please configure your API key in the extension popup',
   API_ERROR: 'Failed to get response from API',
@@ -52,7 +47,6 @@ export const ERROR_MESSAGES = {
 export type Provider = (typeof PROVIDERS)[keyof typeof PROVIDERS];
 export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS];
 export type DefaultModel = (typeof DEFAULT_MODELS)[keyof typeof DEFAULT_MODELS];
-export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
 export type ErrorMessage = (typeof ERROR_MESSAGES)[keyof typeof ERROR_MESSAGES];
 
 // Configuration interface

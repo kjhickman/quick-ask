@@ -4,23 +4,14 @@ import { useConfig } from '@hooks/useConfig';
 import { ProviderSelector } from './ProviderSelector';
 import { ConfigurationForm } from './ConfigurationForm';
 import { SaveButton } from './SaveButton';
-import { ErrorDisplay } from '../error-display/ErrorDisplay';
+import { ErrorDisplay } from '@components/error-display/ErrorDisplay';
 
 export function PopupApp(): React.ReactElement {
-  const {
-    config,
-    loading,
-    error,
-    updateConfig,
-    loadProviderConfig,
-    saveConfig,
-    clearError,
-    setError,
-  } = useConfig();
+  const { config, loading, error, success, updateConfig, loadProviderConfig, saveConfig } =
+    useConfig();
 
   const handleProviderChange = async (provider: Provider | ''): Promise<void> => {
     updateConfig({ provider });
-    clearError();
 
     if (provider) {
       await loadProviderConfig(provider);
@@ -29,12 +20,10 @@ export function PopupApp(): React.ReactElement {
 
   const handleApiKeyChange = (apiKey: string): void => {
     updateConfig({ apiKey });
-    clearError();
   };
 
   const handleModelChange = (model: string): void => {
     updateConfig({ model });
-    clearError();
   };
 
   const handleModelFocus = (): void => {
@@ -43,18 +32,7 @@ export function PopupApp(): React.ReactElement {
   };
 
   const handleSave = async (): Promise<boolean> => {
-    const success = await saveConfig();
-
-    if (success) {
-      setError(null);
-      // Set success message using setError with a success indicator
-      // Since our hook doesn't have a separate success state, we'll use the ErrorDisplay success prop
-      setTimeout(() => {
-        setError('Configuration saved successfully! Try typing "ask" in the address bar.');
-      }, 100);
-    }
-
-    return success;
+    return await saveConfig();
   };
 
   const showConfigurationForm = config.provider !== '';
@@ -69,11 +47,6 @@ export function PopupApp(): React.ReactElement {
       </div>
     );
   }
-
-  // Check if the error is actually a success message
-  const isSuccessMessage = error?.includes('Configuration saved successfully!');
-  const errorMessage = isSuccessMessage ? null : error;
-  const successMessage = isSuccessMessage ? error : null;
 
   return (
     <div className="config-container">
@@ -90,7 +63,7 @@ export function PopupApp(): React.ReactElement {
         />
       )}
 
-      <ErrorDisplay error={errorMessage} success={successMessage} />
+      <ErrorDisplay error={error} success={success} />
 
       {showSaveButton && (
         <div className="config-section">

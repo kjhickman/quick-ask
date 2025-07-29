@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ResponseApp } from '../../components/response/ResponseApp';
+import { ResponseApp } from '@components/response/ResponseApp';
 
 // Ensure the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

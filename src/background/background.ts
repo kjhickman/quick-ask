@@ -1,7 +1,3 @@
-/**
- * Background script for QuickAsk
- * Handles omnibox interactions
- */
 chrome.omnibox.onInputEntered.addListener(
   (text: string, disposition: chrome.omnibox.OnInputEnteredDisposition) => {
     const url =

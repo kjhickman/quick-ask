@@ -199,6 +199,18 @@
     color: var(--color-error-text);
   }
 
+  .error-display.success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .error-display.warning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+  }
+
   .help-text {
     @apply text-xs mt-1;
     color: var(--color-text-muted);

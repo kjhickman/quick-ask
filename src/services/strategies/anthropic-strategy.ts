@@ -7,12 +7,9 @@ import {
   type ApiConfig,
   type RequestConfig,
   type AnthropicResponse,
-} from '../../config/constants.js';
-import { LLMProviderStrategy } from './llm-provider-strategy.js';
+} from '@config/constants';
+import { LLMProviderStrategy } from './llm-provider-strategy';
 
-/**
- * Anthropic provider strategy implementation
- */
 export class AnthropicStrategy implements LLMProviderStrategy {
   createRequestConfig(query: string, config: ApiConfig): RequestConfig {
     const { apiKey, model } = config;

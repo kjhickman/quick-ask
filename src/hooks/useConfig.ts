@@ -13,10 +13,12 @@ export function useConfig(): {
   config: ConfigState;
   loading: boolean;
   error: string | null;
+  success: string | null;
   updateConfig: (updates: Partial<ConfigState>) => void;
   loadProviderConfig: (provider: Provider) => Promise<void>;
   saveConfig: () => Promise<boolean>;
   clearError: () => void;
+  clearSuccess: () => void;
   setError: (error: string | null) => void;
 } {
   const [config, setConfig] = useState<ConfigState>({
@@ -26,6 +28,7 @@ export function useConfig(): {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     loadConfig();
@@ -35,6 +38,7 @@ export function useConfig(): {
     try {
       setLoading(true);
       setError(null);
+      setSuccess(null);
       const savedConfig = await ConfigService.loadConfig();
 
       setConfig({
@@ -52,6 +56,7 @@ export function useConfig(): {
   const loadProviderConfig = async (provider: Provider): Promise<void> => {
     try {
       setError(null);
+      setSuccess(null);
       const providerConfig = await ConfigService.loadProviderConfig(provider);
 
       setConfig(prev => ({
@@ -66,11 +71,14 @@ export function useConfig(): {
 
   const updateConfig = (updates: Partial<ConfigState>): void => {
     setConfig(prev => ({ ...prev, ...updates }));
+    setError(null);
+    setSuccess(null);
   };
 
   const saveConfig = async (): Promise<boolean> => {
     try {
       setError(null);
+      setSuccess(null);
 
       if (!config.provider) {
         setError('Please select a provider');
@@ -92,6 +100,7 @@ export function useConfig(): {
       };
 
       await ConfigService.saveConfig(configToSave);
+      setSuccess('Configuration saved successfully! Try typing "ask" in the address bar.');
       return true;
     } catch (err) {
       setError(ErrorService.handleError(err as Error));
@@ -100,15 +109,18 @@ export function useConfig(): {
   };
 
   const clearError = (): void => setError(null);
+  const clearSuccess = (): void => setSuccess(null);
 
   return {
     config,
     loading,
     error,
+    success,
     updateConfig,
     loadProviderConfig,
     saveConfig,
     clearError,
+    clearSuccess,
     setError,
   };
 }

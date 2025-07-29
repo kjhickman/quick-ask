@@ -1,5 +1,5 @@
-import { type Provider, type ApiConfig, type RequestConfig } from '../config/constants.js';
-import { LLMStrategyFactory } from './strategies/llm-strategy-factory.js';
+import { type Provider, type ApiConfig, type RequestConfig } from '@config/constants';
+import { LLMStrategyFactory } from './strategies/llm-strategy-factory';
 
 /**
  * API Service for handling LLM provider communication using Strategy pattern

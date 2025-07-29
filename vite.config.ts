@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
 import react from '@vitejs/plugin-react';
+import autoprefixer from 'autoprefixer';
+import tailwindcss from '@tailwindcss/postcss';
 import manifest from './manifest.json';
 
 export default defineConfig(({ mode }) => ({
@@ -11,7 +13,9 @@ export default defineConfig(({ mode }) => ({
     }),
   ],
   css: {
-    postcss: './postcss.config.js',
+    postcss: {
+      plugins: [tailwindcss, autoprefixer],
+    },
   },
   build: {
     rollupOptions: {

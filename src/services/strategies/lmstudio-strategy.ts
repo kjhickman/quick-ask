@@ -7,7 +7,7 @@ import {
   type ApiConfig,
   type RequestConfig,
   type OpenAIResponse,
-} from '../../config/constants';
+} from '@config/constants';
 import { LLMProviderStrategy } from './llm-provider-strategy';
 
 /**

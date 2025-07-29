@@ -1,4 +1,4 @@
-import { DEFAULT_MODELS, PROVIDERS, type Provider, type ApiConfig } from '../config/constants.js';
+import { DEFAULT_MODELS, PROVIDERS, type Provider, type ApiConfig } from '@config/constants';
 
 interface ProviderConfig {
   apiKey: string;

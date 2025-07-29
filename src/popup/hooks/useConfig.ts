@@ -1,6 +1,6 @@
 import type { ApiConfig, Provider } from '@shared/config/constants';
-import ConfigService from '@shared/services/config-service';
-import { ErrorService } from '@shared/services/error-service';
+import ConfigUtils from '@shared/utils/config-utils';
+import { ErrorUtils } from '@shared/utils/error-utils';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {
@@ -35,7 +35,7 @@ export function useConfig(): {
       setLoading(true);
       setError(null);
       setSuccess(null);
-      const savedConfig = await ConfigService.loadConfig();
+      const savedConfig = await ConfigUtils.loadConfig();
 
       setConfig({
         provider: savedConfig.provider || '',
@@ -43,7 +43,7 @@ export function useConfig(): {
         model: savedConfig.model || '',
       });
     } catch (err) {
-      setError(ErrorService.handleError(err as Error));
+      setError(ErrorUtils.handleError(err as Error));
     } finally {
       setLoading(false);
     }
@@ -57,15 +57,15 @@ export function useConfig(): {
     try {
       setError(null);
       setSuccess(null);
-      const providerConfig = await ConfigService.loadProviderConfig(provider);
+      const providerConfig = await ConfigUtils.loadProviderConfig(provider);
 
       setConfig(prev => ({
         ...prev,
         apiKey: providerConfig.apiKey || '',
-        model: providerConfig.model || ConfigService.getDefaultModel(provider),
+        model: providerConfig.model || ConfigUtils.getDefaultModel(provider),
       }));
     } catch (err) {
-      setError(ErrorService.handleError(err as Error));
+      setError(ErrorUtils.handleError(err as Error));
     }
   };
 
@@ -96,14 +96,14 @@ export function useConfig(): {
       const configToSave: ApiConfig = {
         provider: config.provider as Provider,
         apiKey: config.apiKey,
-        model: config.model || ConfigService.getDefaultModel(config.provider as Provider),
+        model: config.model || ConfigUtils.getDefaultModel(config.provider as Provider),
       };
 
-      await ConfigService.saveConfig(configToSave);
+      await ConfigUtils.saveConfig(configToSave);
       setSuccess('Configuration saved successfully! Try typing "ask" in the address bar.');
       return true;
     } catch (err) {
-      setError(ErrorService.handleError(err as Error));
+      setError(ErrorUtils.handleError(err as Error));
       return false;
     }
   };

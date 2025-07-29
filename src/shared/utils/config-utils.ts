@@ -105,7 +105,7 @@ export async function getAllProviderConfigs(): Promise<Partial<ProviderConfigs>>
   return (result.providerConfigs as Partial<ProviderConfigs>) || {};
 }
 
-const ConfigService = {
+const ConfigUtils = {
   loadConfig,
   saveConfig,
   loadProviderConfig,
@@ -113,4 +113,4 @@ const ConfigService = {
   getDefaultModel,
 };
 
-export default ConfigService;
+export default ConfigUtils;

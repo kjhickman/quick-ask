@@ -1,5 +1,5 @@
 import type { ApiConfig, Provider, RequestConfig } from '../config/constants';
-import { LLMStrategyFactory } from './strategies/llm-strategy-factory';
+import { LLMStrategyFactory } from '../services/strategies/llm-strategy-factory';
 
 export function createRequestConfig(query: string, config: ApiConfig): RequestConfig {
   const strategy = LLMStrategyFactory.getStrategy(config.provider);
@@ -15,10 +15,10 @@ export function getAvailableProviders(): Provider[] {
   return LLMStrategyFactory.getAvailableProviders();
 }
 
-const ApiService = {
+const ApiUtils = {
   createRequestConfig,
   parseResponseChunk,
   getAvailableProviders,
 };
 
-export default ApiService;
+export default ApiUtils;

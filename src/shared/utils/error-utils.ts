@@ -74,7 +74,7 @@ export function clearError(elementId: string): void {
   }
 }
 
-export const ErrorService = {
+export const ErrorUtils = {
   formatApiError,
   isConfigurationError,
   getConfigurationErrorMessage,

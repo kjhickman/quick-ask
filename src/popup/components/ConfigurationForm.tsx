@@ -1,5 +1,5 @@
 import type { Provider } from '@shared/config/constants';
-import ConfigService from '@shared/services/config-service';
+import ConfigUtils from '@shared/utils/config-utils';
 import type React from 'react';
 
 export interface ConfigurationFormProps {
@@ -26,7 +26,7 @@ export function ConfigurationForm({
   }
 
   const isCloudProvider = provider === 'openai' || provider === 'anthropic';
-  const defaultModel = ConfigService.getDefaultModel(provider);
+  const defaultModel = ConfigUtils.getDefaultModel(provider);
 
   const getApiKeyHelp = (): string => {
     switch (provider) {

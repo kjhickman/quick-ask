@@ -1,4 +1,4 @@
-import type { ApiConfig, Provider } from '@shared/config/constants';
+import type { ApiConfig, ProviderType } from '@shared/config/constants';
 import {
   getDefaultModel,
   loadConfig as loadStoredConfig,
@@ -9,7 +9,7 @@ import { handleError } from '@shared/utils/error';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {
-  provider: Provider | '';
+  provider: ProviderType | '';
   apiKey: string;
   model: string;
 }
@@ -20,7 +20,7 @@ export function useConfig(): {
   error: string | null;
   success: string | null;
   updateConfig: (updates: Partial<ConfigState>) => void;
-  loadProviderConfig: (provider: Provider) => Promise<void>;
+  loadProviderConfig: (provider: ProviderType) => Promise<void>;
   saveConfig: () => Promise<boolean>;
   clearError: () => void;
   clearSuccess: () => void;
@@ -58,7 +58,7 @@ export function useConfig(): {
     loadConfig();
   }, [loadConfig]);
 
-  const loadProviderConfig = async (provider: Provider): Promise<void> => {
+  const loadProviderConfig = async (provider: ProviderType): Promise<void> => {
     try {
       setError(null);
       setSuccess(null);
@@ -99,9 +99,9 @@ export function useConfig(): {
       }
 
       const configToSave: ApiConfig = {
-        provider: config.provider as Provider,
+        provider: config.provider as ProviderType,
         apiKey: config.apiKey,
-        model: config.model || getDefaultModel(config.provider as Provider),
+        model: config.model || getDefaultModel(config.provider as ProviderType),
       };
 
       await saveStoredConfig(configToSave);

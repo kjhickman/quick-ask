@@ -1,4 +1,5 @@
-import { type ApiConfig, DEFAULT_MODELS, PROVIDERS, type Provider } from '../config/constants';
+import { DEFAULT_MODELS, PROVIDERS, type ProviderType } from '../config/constants';
+import type { ApiConfig } from '../providers/types';
 
 interface ProviderConfig {
   apiKey: string;
@@ -14,7 +15,7 @@ interface ProviderConfigs {
   [PROVIDERS.GEMINI]: ProviderConfig;
 }
 
-export function getDefaultModel(provider: Provider): string {
+export function getDefaultModel(provider: ProviderType): string {
   switch (provider) {
     case PROVIDERS.OPENAI:
       return DEFAULT_MODELS.openai;
@@ -40,7 +41,7 @@ async function migrateOldConfigFormat(): Promise<void> {
     const newConfigCheck = await chrome.storage.sync.get(['currentProvider', 'providerConfigs']);
 
     if (!newConfigCheck.currentProvider && !newConfigCheck.providerConfigs) {
-      const provider = (oldConfig.provider as Provider) || PROVIDERS.OPENAI;
+      const provider = (oldConfig.provider as ProviderType) || PROVIDERS.OPENAI;
       const providerConfigs: Partial<ProviderConfigs> = {};
 
       providerConfigs[provider] = {
@@ -62,7 +63,7 @@ export async function loadConfig(): Promise<ApiConfig> {
   await migrateOldConfigFormat();
 
   const result = await chrome.storage.sync.get(['currentProvider', 'providerConfigs']);
-  const currentProvider = (result.currentProvider as Provider) || PROVIDERS.OPENAI;
+  const currentProvider = (result.currentProvider as ProviderType) || PROVIDERS.OPENAI;
   const providerConfigs = (result.providerConfigs as Partial<ProviderConfigs>) || {};
 
   const providerConfig = providerConfigs[currentProvider] || {
@@ -93,7 +94,7 @@ export async function saveConfig(config: ApiConfig): Promise<void> {
 }
 
 export async function loadProviderConfig(
-  provider: Provider
+  provider: ProviderType
 ): Promise<{ apiKey: string; model: string }> {
   const result = await chrome.storage.sync.get(['providerConfigs']);
   const providerConfigs = (result.providerConfigs as Partial<ProviderConfigs>) || {};

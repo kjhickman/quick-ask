@@ -1,9 +1,9 @@
-import type { Provider } from '@shared/config/constants';
+import type { ProviderType } from '@shared/config/constants';
 import type React from 'react';
 
 export interface ProviderSelectorProps {
-  value: Provider | '';
-  onChange: (provider: Provider | '') => void;
+  value: ProviderType | '';
+  onChange: (provider: ProviderType | '') => void;
   className?: string;
 }
 
@@ -13,7 +13,7 @@ export function ProviderSelector({
   className = '',
 }: ProviderSelectorProps): React.ReactElement {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    onChange(event.target.value as Provider | '');
+    onChange(event.target.value as ProviderType | '');
   };
 
   return (

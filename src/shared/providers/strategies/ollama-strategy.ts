@@ -1,14 +1,25 @@
 import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
-  type OllamaResponse,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+interface OllamaMessage {
+  role?: string;
+  content?: string;
+}
+
+interface OllamaResponse {
+  model?: string;
+  created_at?: string;
+  message?: OllamaMessage;
+  done?: boolean;
+}
+
 export class OllamaStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.OLLAMA;
   }
 

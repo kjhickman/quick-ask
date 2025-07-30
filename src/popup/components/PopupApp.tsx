@@ -1,5 +1,5 @@
 import { ErrorDisplay } from '@shared/components/ErrorDisplay';
-import type { Provider } from '@shared/config/constants';
+import type { ProviderType } from '@shared/config/constants';
 import type React from 'react';
 import { useConfig } from '../hooks/useConfig';
 import { ConfigurationForm } from './ConfigurationForm';
@@ -10,7 +10,7 @@ export function PopupApp(): React.ReactElement {
   const { config, loading, error, success, updateConfig, loadProviderConfig, saveConfig } =
     useConfig();
 
-  const handleProviderChange = async (provider: Provider | ''): Promise<void> => {
+  const handleProviderChange = async (provider: ProviderType | ''): Promise<void> => {
     updateConfig({ provider });
 
     if (provider) {
@@ -53,7 +53,7 @@ export function PopupApp(): React.ReactElement {
 
       {showConfigurationForm && (
         <ConfigurationForm
-          provider={config.provider as Provider}
+          provider={config.provider as ProviderType}
           apiKey={config.apiKey}
           model={config.model}
           onApiKeyChange={handleApiKeyChange}

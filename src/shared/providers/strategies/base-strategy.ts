@@ -1,13 +1,8 @@
-import {
-  type ApiConfig,
-  type Provider,
-  type RequestConfig,
-  UI_CONSTANTS,
-} from '../../config/constants';
-import type { LLMProviderStrategy } from '../types';
+import { type ProviderType, UI_CONSTANTS } from '../../config/constants';
+import type { ApiConfig, LLMProviderStrategy, RequestConfig } from '../types';
 
 export abstract class BaseProviderStrategy implements LLMProviderStrategy {
-  abstract getProviderType(): Provider;
+  abstract getProviderType(): ProviderType;
   abstract getEndpointUrl(): string;
   abstract getDefaultModel(): string;
   abstract buildHeaders(apiKey?: string): Record<string, string>;

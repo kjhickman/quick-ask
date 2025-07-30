@@ -1,4 +1,5 @@
-import { type ApiConfig, ERROR_MESSAGES } from '../config/constants';
+import { ERROR_MESSAGES } from '../config/constants';
+import type { ApiConfig } from '../providers/types';
 
 export interface StandardError {
   type: string;

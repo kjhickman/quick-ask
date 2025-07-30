@@ -1,4 +1,4 @@
-import { PROVIDERS, type Provider } from '../config/constants';
+import { PROVIDERS, type ProviderType } from '../config/constants';
 import { AnthropicStrategy } from './strategies/anthropic-strategy';
 import { GeminiStrategy } from './strategies/gemini-strategy';
 import { LMStudioStrategy } from './strategies/lmstudio-strategy';
@@ -7,7 +7,7 @@ import { OllamaStrategy } from './strategies/ollama-strategy';
 import { OpenAIStrategy } from './strategies/openai-strategy';
 import type { LLMProviderStrategy } from './types';
 
-const strategies: Map<Provider, LLMProviderStrategy> = new Map([
+const strategies: Map<ProviderType, LLMProviderStrategy> = new Map([
   [PROVIDERS.OPENAI, new OpenAIStrategy()],
   [PROVIDERS.ANTHROPIC, new AnthropicStrategy()],
   [PROVIDERS.LMSTUDIO, new LMStudioStrategy()],
@@ -16,7 +16,7 @@ const strategies: Map<Provider, LLMProviderStrategy> = new Map([
   [PROVIDERS.GEMINI, new GeminiStrategy()],
 ]);
 
-export function getStrategy(provider: Provider): LLMProviderStrategy {
+export function getStrategy(provider: ProviderType): LLMProviderStrategy {
   const strategy = strategies.get(provider);
 
   if (!strategy) {
@@ -26,10 +26,10 @@ export function getStrategy(provider: Provider): LLMProviderStrategy {
   return strategy;
 }
 
-export function getAvailableProviders(): Provider[] {
+export function getAvailableProviders(): ProviderType[] {
   return Array.from(strategies.keys());
 }
 
-export function registerStrategy(provider: Provider, strategy: LLMProviderStrategy): void {
+export function registerStrategy(provider: ProviderType, strategy: LLMProviderStrategy): void {
   strategies.set(provider, strategy);
 }

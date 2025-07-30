@@ -1,14 +1,23 @@
 import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
-  type MistralResponse,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+interface MistralChoice {
+  delta?: {
+    content?: string;
+  };
+}
+
+interface MistralResponse {
+  choices?: MistralChoice[];
+}
+
 export class MistralStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.MISTRAL;
   }
 

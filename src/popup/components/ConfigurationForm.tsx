@@ -1,9 +1,9 @@
-import type { Provider } from '@shared/config/constants';
+import type { ProviderType } from '@shared/config/constants';
 import { getDefaultModel } from '@shared/utils/config';
 import type React from 'react';
 
 export interface ConfigurationFormProps {
-  provider: Provider | '';
+  provider: ProviderType | '';
   apiKey: string;
   model: string;
   onApiKeyChange: (apiKey: string) => void;

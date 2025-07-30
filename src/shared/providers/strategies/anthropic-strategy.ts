@@ -1,14 +1,22 @@
 import {
-  type AnthropicResponse,
   API_ENDPOINTS,
   DEFAULT_MODELS,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+interface AnthropicDelta {
+  text?: string;
+}
+
+interface AnthropicResponse {
+  type?: string;
+  delta?: AnthropicDelta;
+}
+
 export class AnthropicStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.ANTHROPIC;
   }
 

@@ -1,14 +1,25 @@
 import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
-  type GeminiResponse,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+interface GeminiCandidate {
+  content?: {
+    parts?: Array<{
+      text?: string;
+    }>;
+  };
+}
+
+interface GeminiResponse {
+  candidates?: GeminiCandidate[];
+}
+
 export class GeminiStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.GEMINI;
   }
 

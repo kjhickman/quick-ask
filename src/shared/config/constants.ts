@@ -1,3 +1,14 @@
+export const PROVIDERS = {
+  OPENAI: 'openai',
+  ANTHROPIC: 'anthropic',
+  LMSTUDIO: 'lmstudio',
+  OLLAMA: 'ollama',
+  MISTRAL: 'mistral',
+  GEMINI: 'gemini',
+} as const;
+
+export type ProviderType = (typeof PROVIDERS)[keyof typeof PROVIDERS];
+
 export const API_ENDPOINTS = {
   OPENAI: 'https://api.openai.com/v1/chat/completions',
   ANTHROPIC: 'https://api.anthropic.com/v1/messages',
@@ -14,15 +25,6 @@ export const DEFAULT_MODELS = {
   ollama: 'gemma3:4b',
   mistral: 'mistral-small-latest',
   gemini: 'gemini-1.5-flash',
-} as const;
-
-export const PROVIDERS = {
-  OPENAI: 'openai',
-  ANTHROPIC: 'anthropic',
-  LMSTUDIO: 'lmstudio',
-  OLLAMA: 'ollama',
-  MISTRAL: 'mistral',
-  GEMINI: 'gemini',
 } as const;
 
 export const UI_CONSTANTS = {
@@ -44,73 +46,3 @@ export const ERROR_MESSAGES = {
   OLLAMA_SERVER_ERROR:
     'Ollama server is not running. Please start Ollama and ensure the server is running on port 11434.',
 } as const;
-
-export type Provider = (typeof PROVIDERS)[keyof typeof PROVIDERS];
-export type ApiEndpoint = (typeof API_ENDPOINTS)[keyof typeof API_ENDPOINTS];
-export type DefaultModel = (typeof DEFAULT_MODELS)[keyof typeof DEFAULT_MODELS];
-export type ErrorMessage = (typeof ERROR_MESSAGES)[keyof typeof ERROR_MESSAGES];
-
-export interface ApiConfig {
-  provider: Provider;
-  apiKey: string;
-  model?: string;
-}
-
-export interface RequestConfig {
-  url: string;
-  headers: Record<string, string>;
-  body: Record<string, unknown>;
-}
-
-export interface OpenAIChoice {
-  delta?: {
-    content?: string;
-  };
-}
-
-export interface OpenAIResponse {
-  choices?: OpenAIChoice[];
-}
-
-export interface MistralChoice {
-  delta?: {
-    content?: string;
-  };
-}
-
-export interface MistralResponse {
-  choices?: MistralChoice[];
-}
-
-export interface AnthropicDelta {
-  text?: string;
-}
-
-export interface AnthropicResponse {
-  type?: string;
-  delta?: AnthropicDelta;
-}
-
-export interface OllamaMessage {
-  role?: string;
-  content?: string;
-}
-
-export interface OllamaResponse {
-  model?: string;
-  created_at?: string;
-  message?: OllamaMessage;
-  done?: boolean;
-}
-
-export interface GeminiCandidate {
-  content?: {
-    parts?: Array<{
-      text?: string;
-    }>;
-  };
-}
-
-export interface GeminiResponse {
-  candidates?: GeminiCandidate[];
-}

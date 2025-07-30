@@ -1,14 +1,24 @@
 import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
-  type OpenAIResponse,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+// LM Studio uses OpenAI-compatible API
+interface OpenAIChoice {
+  delta?: {
+    content?: string;
+  };
+}
+
+interface OpenAIResponse {
+  choices?: OpenAIChoice[];
+}
+
 export class LMStudioStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.LMSTUDIO;
   }
 

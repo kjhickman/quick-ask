@@ -1,14 +1,23 @@
 import {
   API_ENDPOINTS,
   DEFAULT_MODELS,
-  type OpenAIResponse,
   PROVIDERS,
-  type Provider,
+  type ProviderType,
 } from '../../config/constants';
 import { BaseProviderStrategy } from './base-strategy';
 
+interface OpenAIChoice {
+  delta?: {
+    content?: string;
+  };
+}
+
+interface OpenAIResponse {
+  choices?: OpenAIChoice[];
+}
+
 export class OpenAIStrategy extends BaseProviderStrategy {
-  getProviderType(): Provider {
+  getProviderType(): ProviderType {
     return PROVIDERS.OPENAI;
   }
 

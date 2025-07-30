@@ -1,12 +1,8 @@
-import type { ApiConfig } from '@shared/config/constants';
+import { ERROR_MESSAGES } from '@shared/config/constants';
+import type { ApiConfig } from '@shared/providers/types';
 import { createRequestConfig, parseResponseChunk } from '@shared/utils/api';
 import { loadConfig } from '@shared/utils/config';
-import {
-  formatApiError,
-  getConfigurationErrorMessage,
-  handleError,
-  isConfigurationError,
-} from '@shared/utils/error';
+import { ApiError, getErrorMessage, requiresApiKey } from '@shared/utils/error';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface StreamingState {
@@ -52,7 +48,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(formatApiError(response));
+        throw new ApiError(`HTTP ${response.status}: ${response.statusText}`, response.status);
       }
 
       setState(prev => ({
@@ -117,7 +113,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
           ...prev,
           isLoading: false,
           isStreaming: false,
-          error: handleError(error as Error),
+          error: getErrorMessage(error, config),
         }));
       }
     }
@@ -140,11 +136,11 @@ export function useStreamingResponse(query: string | null): StreamingState & {
 
       const config = await loadConfig();
 
-      if (isConfigurationError(config)) {
+      if (!config.apiKey && requiresApiKey(config.provider)) {
         setState(prev => ({
           ...prev,
           isLoading: false,
-          error: getConfigurationErrorMessage(),
+          error: ERROR_MESSAGES.NO_API_KEY,
         }));
         return;
       }
@@ -155,7 +151,7 @@ export function useStreamingResponse(query: string | null): StreamingState & {
         ...prev,
         isLoading: false,
         isStreaming: false,
-        error: handleError(error as Error),
+        error: getErrorMessage(error),
       }));
     }
   }, [query, streamResponse]);

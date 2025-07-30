@@ -1,11 +1,12 @@
-import type { ApiConfig, ProviderType } from '@shared/config/constants';
+import type { ProviderType } from '@shared/config/constants';
+import type { ApiConfig } from '@shared/providers/types';
 import {
   getDefaultModel,
   loadConfig as loadStoredConfig,
   loadProviderConfig as loadStoredProviderConfig,
   saveConfig as saveStoredConfig,
 } from '@shared/utils/config';
-import { handleError } from '@shared/utils/error';
+import { getErrorMessage, requiresApiKey } from '@shared/utils/error';
 import { useCallback, useEffect, useState } from 'react';
 
 export interface ConfigState {
@@ -48,7 +49,7 @@ export function useConfig(): {
         model: savedConfig.model || '',
       });
     } catch (err) {
-      setError(handleError(err as Error));
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -70,7 +71,7 @@ export function useConfig(): {
         model: providerConfig.model || getDefaultModel(provider),
       }));
     } catch (err) {
-      setError(handleError(err as Error));
+      setError(getErrorMessage(err));
     }
   };
 
@@ -90,10 +91,7 @@ export function useConfig(): {
         return false;
       }
 
-      if (
-        (config.provider === 'openai' || config.provider === 'anthropic') &&
-        !config.apiKey.trim()
-      ) {
+      if (!config.apiKey.trim() && requiresApiKey(config.provider as ProviderType)) {
         setError('API key is required for cloud providers');
         return false;
       }
@@ -108,7 +106,7 @@ export function useConfig(): {
       setSuccess('Configuration saved successfully! Try typing "ask" in the address bar.');
       return true;
     } catch (err) {
-      setError(handleError(err as Error));
+      setError(getErrorMessage(err));
       return false;
     }
   };

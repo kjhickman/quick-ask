@@ -1,11 +1,6 @@
 import type { ProviderType } from '@shared/config/constants';
 import type { ApiConfig } from '@shared/providers/types';
-import {
-  getDefaultModel,
-  loadConfig as loadStoredConfig,
-  loadProviderConfig as loadStoredProviderConfig,
-  saveConfig as saveStoredConfig,
-} from '@shared/utils/config';
+import { getDefaultModel, loadConfig, loadProviderConfig, saveConfig } from '@shared/utils/config';
 import { getErrorMessage, requiresApiKey } from '@shared/utils/error';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -36,12 +31,12 @@ export function useConfig(): {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const loadConfig = useCallback(async (): Promise<void> => {
+  const loadConfigFromStorage = useCallback(async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
       setSuccess(null);
-      const savedConfig = await loadStoredConfig();
+      const savedConfig = await loadConfig();
 
       setConfig({
         provider: savedConfig.provider || '',
@@ -56,14 +51,14 @@ export function useConfig(): {
   }, []);
 
   useEffect(() => {
-    loadConfig();
-  }, [loadConfig]);
+    loadConfigFromStorage();
+  }, [loadConfigFromStorage]);
 
-  const loadProviderConfig = async (provider: ProviderType): Promise<void> => {
+  const loadProviderConfigFromStorage = async (provider: ProviderType): Promise<void> => {
     try {
       setError(null);
       setSuccess(null);
-      const providerConfig = await loadStoredProviderConfig(provider);
+      const providerConfig = await loadProviderConfig(provider);
 
       setConfig(prev => ({
         ...prev,
@@ -81,7 +76,7 @@ export function useConfig(): {
     setSuccess(null);
   };
 
-  const saveConfig = async (): Promise<boolean> => {
+  const saveConfigToStorage = async (): Promise<boolean> => {
     try {
       setError(null);
       setSuccess(null);
@@ -102,7 +97,7 @@ export function useConfig(): {
         model: config.model || getDefaultModel(config.provider as ProviderType),
       };
 
-      await saveStoredConfig(configToSave);
+      await saveConfig(configToSave);
       setSuccess('Configuration saved successfully! Try typing "ask" in the address bar.');
       return true;
     } catch (err) {
@@ -120,8 +115,8 @@ export function useConfig(): {
     error,
     success,
     updateConfig,
-    loadProviderConfig,
-    saveConfig,
+    loadProviderConfig: loadProviderConfigFromStorage,
+    saveConfig: saveConfigToStorage,
     clearError,
     clearSuccess,
     setError,

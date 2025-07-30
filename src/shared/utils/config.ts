@@ -6,98 +6,56 @@ interface ProviderConfig {
   model: string;
 }
 
-interface ProviderConfigs {
-  [PROVIDERS.OPENAI]: ProviderConfig;
-  [PROVIDERS.ANTHROPIC]: ProviderConfig;
-  [PROVIDERS.LMSTUDIO]: ProviderConfig;
-  [PROVIDERS.OLLAMA]: ProviderConfig;
-  [PROVIDERS.MISTRAL]: ProviderConfig;
-  [PROVIDERS.GEMINI]: ProviderConfig;
-}
+export type ProviderConfigs = Record<ProviderType, ProviderConfig>;
 
-export function getDefaultModel(provider: ProviderType): string {
-  switch (provider) {
-    case PROVIDERS.OPENAI:
-      return DEFAULT_MODELS.openai;
-    case PROVIDERS.ANTHROPIC:
-      return DEFAULT_MODELS.anthropic;
-    case PROVIDERS.LMSTUDIO:
-      return DEFAULT_MODELS.lmstudio;
-    case PROVIDERS.OLLAMA:
-      return DEFAULT_MODELS.ollama;
-    case PROVIDERS.MISTRAL:
-      return DEFAULT_MODELS.mistral;
-    case PROVIDERS.GEMINI:
-      return DEFAULT_MODELS.gemini;
-    default:
-      return DEFAULT_MODELS.openai;
-  }
-}
-
-async function migrateOldConfigFormat(): Promise<void> {
-  const oldConfig = await chrome.storage.sync.get(['apiKey', 'provider', 'model']);
-
-  if (oldConfig.apiKey || oldConfig.provider || oldConfig.model) {
-    const newConfigCheck = await chrome.storage.sync.get(['currentProvider', 'providerConfigs']);
-
-    if (!newConfigCheck.currentProvider && !newConfigCheck.providerConfigs) {
-      const provider = (oldConfig.provider as ProviderType) || PROVIDERS.OPENAI;
-      const providerConfigs: Partial<ProviderConfigs> = {};
-
-      providerConfigs[provider] = {
-        apiKey: oldConfig.apiKey || '',
-        model: oldConfig.model || getDefaultModel(provider),
-      };
-
-      await chrome.storage.sync.set({
-        currentProvider: provider,
-        providerConfigs: providerConfigs,
-      });
-
-      await chrome.storage.sync.remove(['apiKey', 'provider', 'model']);
-    }
-  }
+export interface StorageData {
+  currentProvider?: ProviderType;
+  providerConfigs?: Partial<ProviderConfigs>;
 }
 
 export async function loadConfig(): Promise<ApiConfig> {
-  await migrateOldConfigFormat();
+  const { currentProvider = PROVIDERS.OPENAI, providerConfigs = {} } = await getStorageData();
 
-  const result = await chrome.storage.sync.get(['currentProvider', 'providerConfigs']);
-  const currentProvider = (result.currentProvider as ProviderType) || PROVIDERS.OPENAI;
-  const providerConfigs = (result.providerConfigs as Partial<ProviderConfigs>) || {};
-
-  const providerConfig = providerConfigs[currentProvider] || {
+  const providerConfig = providerConfigs[currentProvider] ?? {
     apiKey: '',
     model: getDefaultModel(currentProvider),
   };
 
   return {
-    apiKey: providerConfig.apiKey,
     provider: currentProvider,
+    apiKey: providerConfig.apiKey,
     model: providerConfig.model,
   };
 }
 
+async function getStorageData(): Promise<StorageData> {
+  return chrome.storage.sync.get(['currentProvider', 'providerConfigs']) as Promise<StorageData>;
+}
+
+export function getDefaultModel(provider: ProviderType): string {
+  return DEFAULT_MODELS[provider];
+}
+
 export async function saveConfig(config: ApiConfig): Promise<void> {
-  const result = await chrome.storage.sync.get(['providerConfigs']);
-  const providerConfigs = (result.providerConfigs as Partial<ProviderConfigs>) || {};
+  const { providerConfigs = {} } = await getStorageData();
 
   providerConfigs[config.provider] = {
     apiKey: config.apiKey,
     model: config.model || getDefaultModel(config.provider),
   };
 
-  await chrome.storage.sync.set({
+  const dataToSave: StorageData = {
     currentProvider: config.provider,
     providerConfigs: providerConfigs,
-  });
+  };
+
+  await chrome.storage.sync.set(dataToSave);
 }
 
 export async function loadProviderConfig(
   provider: ProviderType
 ): Promise<{ apiKey: string; model: string }> {
-  const result = await chrome.storage.sync.get(['providerConfigs']);
-  const providerConfigs = (result.providerConfigs as Partial<ProviderConfigs>) || {};
+  const { providerConfigs = {} } = await getStorageData();
 
   return (
     providerConfigs[provider] || {
@@ -108,6 +66,6 @@ export async function loadProviderConfig(
 }
 
 export async function getAllProviderConfigs(): Promise<Partial<ProviderConfigs>> {
-  const result = await chrome.storage.sync.get(['providerConfigs']);
-  return (result.providerConfigs as Partial<ProviderConfigs>) || {};
+  const { providerConfigs = {} } = await getStorageData();
+  return providerConfigs;
 }
